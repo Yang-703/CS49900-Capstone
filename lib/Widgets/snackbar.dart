@@ -1,4 +1,4 @@
-// snackbar.dart
+// lib/Widgets/snackbar.dart
 import 'package:flutter/material.dart';
 
 /*

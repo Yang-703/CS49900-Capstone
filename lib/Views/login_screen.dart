@@ -1,4 +1,4 @@
-// login_screen.dart
+/* lib/Views/login_screen.dart */
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/auth_service.dart';
 import 'package:flutter_study_app/Views/nav_bar_category.dart';
@@ -50,7 +50,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Gradient background for a modern look.
+    // Gradient background
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -67,10 +67,10 @@ class _LogInScreenState extends State<LogInScreen> {
               key: _formKey,
               child: ListView(
                 children: [
-                  // Header section with illustration and welcoming text.
+                  // Header section with illustration and welcoming text
                   Column(
                     children: [
-                      // Ensure the asset exists in the project.
+                      // Ensure the asset exists in the project
                       Image.asset(
                         "assets/undraw_login.png",
                         height: 250,
@@ -96,7 +96,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  // Email input field with rounded corners and icon.
+                  // Email input field with rounded corners and icon
                   TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -122,7 +122,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Password input field with icon and toggle visibility.
+                  // Password input field with icon and toggle visibility
                   TextFormField(
                     controller: passwordController,
                     decoration: InputDecoration(
@@ -154,7 +154,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                   const SizedBox(height: 30),
-                  // Login button with improved styling.
+                  // Login button
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : SizedBox(
@@ -165,7 +165,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ),
                   const SizedBox(height: 20),
-                  // Sign Up navigation text.
+                  // Sign Up navigation text
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

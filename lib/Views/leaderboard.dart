@@ -1,8 +1,7 @@
-// leaderboard.dart
+/* lib/Views/leaderboard.dart */
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 class Leaderboard extends StatelessWidget {
   const Leaderboard({super.key});
   
@@ -101,7 +100,6 @@ class Leaderboard extends StatelessWidget {
     );
   }
 
-  // Top three users remain unchanged.
   Widget _buildTopUser(Map<String, dynamic> user, int rank, BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -176,12 +174,12 @@ class Leaderboard extends StatelessWidget {
     );
   }
 
-  // Regular user entries are now wrapped in a Card for an updated design.
+  // Regular user entries are wrapped in a Card
   Widget _buildRegularUser(Map<String, dynamic> user, int rank, BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       elevation: 2,
-      color: const Color.fromARGB(255, 174, 236, 255),
+      color: const Color.fromARGB(255, 138, 131, 134),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -189,20 +187,20 @@ class Leaderboard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
           children: [
-            // Rank number.
+            // Rank number
             Text(
               '$rank',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
+                color: Colors.white,
               ),
             ),
             const SizedBox(width: 12),
-            // Avatar.
+            // Avatar
             CircleAvatar(
               radius: 25,
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               backgroundImage: user['photoBase64'] != null
                   ? MemoryImage(base64Decode(user['photoBase64']))
                   : null,
@@ -210,7 +208,7 @@ class Leaderboard extends StatelessWidget {
                   ? const Icon(
                       Icons.person,
                       size: 30,
-                      color: Colors.yellow
+                      color: Colors.yellow,
                     )
                   : null,
             ),

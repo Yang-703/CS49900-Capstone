@@ -1,4 +1,4 @@
-// result_screen.dart
+// lib/Views/result_screen.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,7 @@ class ResultScreen extends StatelessWidget {
     required this.totalQuestions,
   });
 
-  /// Updates the user's accumulated stars in Firestore.
-  /// (This can be called in quiz_screen before navigating here.)
+  // Updates the user's accumulated stars in Firestore (This can be called in quiz_screen before navigating here)
   Future<void> updateUserstars() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
@@ -29,8 +28,8 @@ class ResultScreen extends StatelessWidget {
         if (!snapshot.exists) {
           throw Exception("User does not exist!");
         }
-        int existingstars = snapshot['stars'] ?? 0;
-        transaction.update(userRef, {'stars': existingstars + stars});
+        int existingStars = snapshot['stars'] ?? 0;
+        transaction.update(userRef, {'stars': existingStars + stars});
       });
     } catch (e) {
       debugPrint("Error updating stars: $e");
@@ -39,7 +38,7 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The updateUserstars function can also be invoked here if needed.
+    // The updateUserstars function can also be invoked here if needed
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,

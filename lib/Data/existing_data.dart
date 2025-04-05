@@ -1,3 +1,5 @@
+/* lib/Data/existing_data.dart */
+
 // To upload data in firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,106 +17,96 @@ final data = {
   "Mathematics": {
     "title": "Mathematics",
     "image_url": "https://img.freepik.com/free-photo/blackboard-inscribed-with-scientific-formulas-calculations_1150-19413.jpg?t=st=1742829717~exp=1742833317~hmac=6d0ee69fff67304a859c1dab898c1d85c2ba20d42cd799d80a22f42883adce5e&w=2000",
-    "question": {
-      "0": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "2x + 3 = 7",
-          "2": "y = mx + b",
-          "3": "x^2 - 4 = 0",
-          "4": "banana + 2 = 5"
+    "courses": {
+      "Algebra 1": {
+        "image_url": "https://img.freepik.com/free-vector/happy-students-learning-math-college-school-isolated-flat-illustration_74855-10799.jpg?t=st=1743803894~exp=1743807494~hmac=386aca8ddd97248d92d49248016498daca23b1070ec8c204cbdccd10a1c063be&w=2000",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Introduction to Algebra",
+            "content": "Overview of algebraic expressions, variables, and constants."
+          },
+          "lesson2": {
+            "title": "2. Linear Equations",
+            "content": "Learn how to solve and graph linear equations."
+          },
         },
-        "questionText": "Which of the following is NOT a valid algebraic equation?"
+        "quiz": {
+          "0": {
+            "questionText": "Which equation is linear?",
+            "options": {
+              "1": "y = 2x + 1",
+              "2": "x^2 + 3",
+              "3": "x^3 - 2",
+              "4": "sin(x)"
+            },
+            "correctOptionKey": "1"
+          },
+          "1": {
+            "questionText": "What is the value of x in 2x = 6?",
+            "options": {
+              "1": "4",
+              "2": "5",
+              "3": "3",
+              "4": "7"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "Solve for x: x + 5 = 10",
+            "options": {
+              "1": "3",
+              "2": "4",
+              "3": "5",
+              "4": "6"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "π ≈ 3.14",
-          "2": "The square root of 4 is 2",
-          "3": "The cube of 3 is 6",
-          "4": "0 is an even number"
+      "Algebra 2": {
+        "image_url": "https://img.freepik.com/free-photo/numerology-concept-composition_23-2150169791.jpg?t=st=1743803947~exp=1743807547~hmac=9d3275d79f9360b79ed9fc61662a8b0a44912dda654c6e95d81dd7507cc9e98e&w=2000",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Advanced Algebra Introduction",
+            "content": "Explore higher-level algebraic concepts and problem-solving techniques."
+          },
+          "lesson2": {
+            "title": "2. Quadratic Equations",
+            "content": "Learn to solve quadratic equations using various methods."
+          },
         },
-        "questionText": "Which of the following is mathematically incorrect?"
-      },
-      "2": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Addition",
-          "2": "Integration",
-          "3": "Subtraction",
-          "4": "Multiplication"
-        },
-        "questionText": "Which of the following operations is used in calculus but not typically in basic arithmetic?"
-      },
-      "3": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "A triangle with sides 3, 4, 5",
-          "2": "A triangle with sides 2, 2, 3",
-          "3": "A triangle with all angles less than 90°",
-          "4": "A triangle with two equal sides"
-        },
-        "questionText": "Which of the following is a right triangle?"
-      },
-      "4": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Mean",
-          "2": "Median",
-          "3": "Mode",
-          "4": "Gravity"
-        },
-        "questionText": "Which of the following is NOT a measure of central tendency?"
-      },
-      "5": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "3/0",
-          "2": "0/3",
-          "3": "3/1",
-          "4": "0/1"
-        },
-        "questionText": "Which of the following is undefined in mathematics?"
-      },
-      "6": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Area of a circle",
-          "2": "Volume of a cube",
-          "3": "Perimeter of a square",
-          "4": "Area of a triangle"
-        },
-        "questionText": "Which of the following involves three-dimensional measurement?"
-      },
-      "7": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "f(x) = x^2",
-          "2": "f(x) = 2x + 1",
-          "3": "f(x) = x/0",
-          "4": "f(x) = √x"
-        },
-        "questionText": "Which function is undefined for any input?"
-      },
-      "8": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "90°",
-          "2": "180°",
-          "3": "360°",
-          "4": "270°"
-        },
-        "questionText": "What is the sum of the interior angles of a triangle?"
-      },
-      "9": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Set",
-          "2": "Function",
-          "3": "Matrix",
-          "4": "Forest"
-        },
-        "questionText": "Which of the following is NOT a mathematical concept?"
+        "quiz": {
+          "0": {
+            "questionText": "What is the discriminant in a quadratic equation?",
+            "options": {
+              "1": "b^2 - 4ac",
+              "2": "2a",
+              "3": "4ac",
+              "4": "b^2 + 4ac"
+            },
+            "correctOptionKey": "1"
+          },
+          "1": {
+            "questionText": "Solve: x^2 - 5x + 6 = 0",
+            "options": {
+              "1": "x = 2 or 3",
+              "2": "x = 1 or 6",
+              "3": "x = 3 or 2",
+              "4": "x = -2 or -3"
+            },
+            "correctOptionKey": "1"
+          },
+          "2": {
+            "questionText": "Which formula is used to solve quadratic equations?",
+            "options": {
+              "1": "Quadratic formula",
+              "2": "Cubic formula",
+              "3": "Linear formula",
+              "4": "Factorization"
+            },
+            "correctOptionKey": "1"
+          }
+        }
       }
     }
   },
@@ -122,106 +114,96 @@ final data = {
   "Engineering": {
     "title": "Engineering",
     "image_url": "https://img.freepik.com/free-vector/bundle-engineering-set-icons_24877-57315.jpg?ga=GA1.1.222963692.1743719257&semt=ais_hybrid&w=740",
-    "question": {
-      "0": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Mechanical",
-          "2": "Civil",
-          "3": "Electrical",
-          "4": "Origami"
+    "courses": {
+      "Fundamentals of Engineering": {
+        "image_url": "https://img.freepik.com/free-photo/still-life-business-roles-with-various-mechanism-pieces_23-2149352652.jpg?t=st=1743804015~exp=1743807615~hmac=345328842e1f95bcee937abfb49cf9e74299a5c26bbae88fd3db9313f3f91cab&w=2000",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Introduction to Engineering",
+            "content": "Explore the different branches of engineering and their real-world applications."
+          },
+          "lesson2": {
+            "title": "2. Engineering Design Process",
+            "content": "Understand the steps involved in defining, planning, and developing engineering solutions."
+          }
         },
-        "questionText": "Which of the following is NOT a branch of engineering?"
+        "quiz": {
+          "0": {
+            "questionText": "Which of the following is a step in the engineering design process?",
+            "options": {
+              "1": "Brainstorming",
+              "2": "Guesswork",
+              "3": "Randomization",
+              "4": "Procrastination"
+            },
+            "correctOptionKey": "1"
+          },
+          "1": {
+            "questionText": "Which branch of engineering deals with machinery and mechanical systems?",
+            "options": {
+              "1": "Civil Engineering",
+              "2": "Mechanical Engineering",
+              "3": "Electrical Engineering",
+              "4": "Chemical Engineering"
+            },
+            "correctOptionKey": "2"
+          },
+          "2": {
+            "questionText": "What is the first step in solving an engineering problem?",
+            "options": {
+              "1": "Build a prototype",
+              "2": "Test the solution",
+              "3": "Identify the problem",
+              "4": "Create a budget"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Blueprint",
-          "2": "Prototype",
-          "3": "Magic wand",
-          "4": "CAD software"
+      "Applied Engineering Concepts": {
+        "image_url": "https://img.freepik.com/premium-photo/technical-engineering-drawing-precision-detail-industrial-design-machinery-construction_875722-56138.jpg?w=1800",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Forces and Motion",
+            "content": "Learn how forces affect motion and how to calculate net forces."
+          },
+          "lesson2": {
+            "title": "2. Material Properties",
+            "content": "Examine different materials used in engineering and their physical properties."
+          }
         },
-        "questionText": "Which of the following is NOT typically used in the engineering design process?"
-      },
-      "2": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Innovation",
-          "2": "Gravity",
-          "3": "Problem-solving",
-          "4": "Design"
-        },
-        "questionText": "Which of the following is a key aspect of engineering?"
-      },
-      "3": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Torque",
-          "2": "Photosynthesis",
-          "3": "Load-bearing",
-          "4": "Friction"
-        },
-        "questionText": "Which of the following is NOT a concept typically studied in engineering?"
-      },
-      "4": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Bridge construction",
-          "2": "Circuit design",
-          "3": "Storytelling",
-          "4": "Software development"
-        },
-        "questionText": "Which of the following is NOT commonly associated with engineering work?"
-      },
-      "5": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Thermodynamics",
-          "2": "Voltage",
-          "3": "Stress and strain",
-          "4": "Chemical reactions"
-        },
-        "questionText": "Which of the following is studied in mechanical engineering?"
-      },
-      "6": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Bridge",
-          "2": "Engine",
-          "3": "Skyscraper",
-          "4": "Cupcake"
-        },
-        "questionText": "Which of the following is NOT an example of an engineering project?"
-      },
-      "7": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Electrical circuits",
-          "2": "Astrology charts",
-          "3": "Structural analysis",
-          "4": "Fluid dynamics"
-        },
-        "questionText": "Which of the following is NOT related to engineering?"
-      },
-      "8": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Design",
-          "2": "Test",
-          "3": "Meditate",
-          "4": "Build"
-        },
-        "questionText": "Which of the following is NOT typically part of the engineering process?"
-      },
-      "9": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Safety",
-          "2": "Precision",
-          "3": "Efficiency",
-          "4": "Fortune-telling"
-        },
-        "questionText": "Which of the following is MOST important in engineering design?"
+        "quiz": {
+          "0": {
+            "questionText": "What is the unit of force in the SI system?",
+            "options": {
+              "1": "Joule",
+              "2": "Watt",
+              "3": "Pascal",
+              "4": "Newton"
+            },
+            "correctOptionKey": "4"
+          },
+          "1": {
+            "questionText": "Which property describes a material's resistance to deformation?",
+            "options": {
+              "1": "Elasticity",
+              "2": "Density",
+              "3": "Conductivity",
+              "4": "Transparency"
+            },
+            "correctOptionKey": "1"
+          },
+          "2": {
+            "questionText": "If a 10 N force is applied to a 2 kg object, what is its acceleration?",
+            "options": {
+              "1": "2 m/s²",
+              "2": "5 m/s²",
+              "3": "10 m/s²",
+              "4": "20 m/s²"
+            },
+            "correctOptionKey": "2"
+          }
+        }
       }
     }
   },
@@ -229,106 +211,96 @@ final data = {
   "Science": {
     "title": "Science",
     "image_url": "https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148499325.jpg?t=st=1742829765~exp=1742833365~hmac=19fbe0d6095234b2ad8c8d876756f46d1c2b7a2696454a427621aac807811200&w=2000",
-    "question": {
-      "0": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Evaporation",
-          "2": "Combustion",
-          "3": "Condensation",
-          "4": "Freezing"
+    "courses": {
+      "Basic Science Concepts": {
+        "image_url": "https://img.freepik.com/free-vector/flat-design-concept-science-word_23-2148536280.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. States of Matter",
+            "content": "Learn about solids, liquids, gases, and how matter changes from one state to another."
+          },
+          "lesson2": {
+            "title": "2. Energy Forms and Sources",
+            "content": "Explore different types of energy including thermal, kinetic, potential, and renewable sources."
+          }
         },
-        "questionText": "Which of the following is a chemical change?"
+        "quiz": {
+          "0": {
+            "questionText": "Which of the following is NOT a state of matter?",
+            "options": {
+              "1": "Solid",
+              "2": "Liquid",
+              "3": "Gas",
+              "4": "Light"
+            },
+            "correctOptionKey": "4"
+          },
+          "1": {
+            "questionText": "Which energy source is renewable?",
+            "options": {
+              "1": "Coal",
+              "2": "Oil",
+              "3": "Wind",
+              "4": "Natural Gas"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "What is the process of changing from a solid to a liquid called?",
+            "options": {
+              "1": "Freezing",
+              "2": "Condensation",
+              "3": "Melting",
+              "4": "Evaporation"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Proton",
-          "2": "Electron",
-          "3": "Neutron",
-          "4": "Photon"
+      "Scientific Inquiry and Methods": {
+        "image_url": "https://img.freepik.com/free-vector/flat-biotechnology-concept-illustration_23-2148892121.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. The Scientific Method",
+            "content": "Understand the steps of the scientific method from asking questions to drawing conclusions."
+          },
+          "lesson2": {
+            "title": "2. Conducting Experiments",
+            "content": "Learn how to design, conduct, and interpret experiments using proper controls and variables."
+          }
         },
-        "questionText": "Which of the following is NOT a subatomic particle found in the nucleus of an atom?"
-      },
-      "2": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Mitochondria",
-          "2": "Nucleus",
-          "3": "Ribosome",
-          "4": "Chloroplast"
-        },
-        "questionText": "Which organelle is known as the powerhouse of the cell?"
-      },
-      "3": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Gravity",
-          "2": "Friction",
-          "3": "Love",
-          "4": "Magnetism"
-        },
-        "questionText": "Which of the following is NOT a recognized scientific force?"
-      },
-      "4": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Water boils at 100°C",
-          "2": "The moon is made of cheese",
-          "3": "The Earth orbits the Sun",
-          "4": "Light travels faster than sound"
-        },
-        "questionText": "Which of the following statements is scientifically incorrect?"
-      },
-      "5": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Photosynthesis",
-          "2": "Respiration",
-          "3": "Fermentation",
-          "4": "Digestion"
-        },
-        "questionText": "Which process allows plants to convert sunlight into energy?"
-      },
-      "6": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Mercury",
-          "2": "Venus",
-          "3": "Earth",
-          "4": "Pluto"
-        },
-        "questionText": "Which of the following is NOT officially classified as a planet in our solar system?"
-      },
-      "7": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Solid",
-          "2": "Plasma",
-          "3": "Liquid",
-          "4": "Gas"
-        },
-        "questionText": "Which state of matter is made up of ionized particles and found in stars?"
-      },
-      "8": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Carbon",
-          "2": "Nitrogen",
-          "3": "Helium",
-          "4": "Oxygen"
-        },
-        "questionText": "Which gas is used in balloons because it is lighter than air and non-flammable?"
-      },
-      "9": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Einstein",
-          "2": "Newton",
-          "3": "Galileo",
-          "4": "Curie"
-        },
-        "questionText": "Who developed the theory of relativity?"
+        "quiz": {
+          "0": {
+            "questionText": "What is the first step in the scientific method?",
+            "options": {
+              "1": "Analyze Data",
+              "2": "Conduct an Experiment",
+              "3": "Ask a Question",
+              "4": "Form a Hypothesis"
+            },
+            "correctOptionKey": "3"
+          },
+          "1": {
+            "questionText": "What is a variable in an experiment?",
+            "options": {
+              "1": "A constant condition",
+              "2": "A type of conclusion",
+              "3": "A part that changes",
+              "4": "An error in measurement"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "Why is it important to repeat an experiment?",
+            "options": {
+              "1": "To get a higher grade",
+              "2": "To make it more fun",
+              "3": "To confirm the results",
+              "4": "To change the outcome"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       }
     }
   },
@@ -336,106 +308,96 @@ final data = {
   "Social Studies": {
     "title": "Social Studies",
     "image_url": "https://img.freepik.com/free-vector/geopraphy-concept-with-retro-cartoon-school-lesson-set_1284-7502.jpg?ga=GA1.1.222963692.1743719257&semt=ais_hybrid&w=740",
-    "question": {
-      "0": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Democracy",
-          "2": "Hydrogen bonding",
-          "3": "Monarchy",
-          "4": "Dictatorship"
+    "courses": {
+      "World History Overview": {
+        "image_url": "https://img.freepik.com/free-photo/plane-magnifying-glass-near-compass-notebook_23-2147793455.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Ancient Civilizations",
+            "content": "Explore the origins and contributions of ancient civilizations such as Mesopotamia, Egypt, and the Indus Valley."
+          },
+          "lesson2": {
+            "title": "2. Modern World History",
+            "content": "Understand key global events from the Renaissance to the 20th century including revolutions and world wars."
+          }
         },
-        "questionText": "Which of the following is NOT a form of government?"
+        "quiz": {
+          "0": {
+            "questionText": "Which civilization is known for building pyramids?",
+            "options": {
+              "1": "Mesopotamia",
+              "2": "Greece",
+              "3": "Egypt",
+              "4": "Rome"
+            },
+            "correctOptionKey": "3"
+          },
+          "1": {
+            "questionText": "The Renaissance began in which country?",
+            "options": {
+              "1": "France",
+              "2": "Germany",
+              "3": "England",
+              "4": "Italy"
+            },
+            "correctOptionKey": "4"
+          },
+          "2": {
+            "questionText": "World War II ended in what year?",
+            "options": {
+              "1": "1940",
+              "2": "1945",
+              "3": "1950",
+              "4": "1939"
+            },
+            "correctOptionKey": "2"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Voting",
-          "2": "Paying taxes",
-          "3": "Following laws",
-          "4": "Telepathy"
+      "Cultural Anthropology": {
+        "image_url": "https://img.freepik.com/free-vector/africa-travel-background_98292-7453.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Introduction to Culture",
+            "content": "Learn about what culture is, including beliefs, customs, language, and traditions."
+          },
+          "lesson2": {
+            "title": "2. Human Societies and Structures",
+            "content": "Examine how societies are organized, including family units, governments, and economic systems."
+          }
         },
-        "questionText": "Which of the following is NOT a civic duty?"
-      },
-      "2": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "The study of human society",
-          "2": "The study of rocks and minerals",
-          "3": "The study of living organisms",
-          "4": "The study of chemical elements"
-        },
-        "questionText": "What is social studies primarily concerned with?"
-      },
-      "3": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Legislative",
-          "2": "Judicial",
-          "3": "Muscular",
-          "4": "Executive"
-        },
-        "questionText": "Which of the following is NOT a branch of government?"
-      },
-      "4": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Geography",
-          "2": "History",
-          "3": "Civics",
-          "4": "Quantum physics"
-        },
-        "questionText": "Which of the following is NOT a major area of study within social studies?"
-      },
-      "5": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Culture",
-          "2": "Photosynthesis",
-          "3": "Economics",
-          "4": "Government"
-        },
-        "questionText": "Which of the following is NOT typically associated with social studies?"
-      },
-      "6": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "United Nations",
-          "2": "City council",
-          "3": "School board",
-          "4": "Senate"
-        },
-        "questionText": "Which international organization promotes global peace and cooperation?"
-      },
-      "7": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Latitude",
-          "2": "Longitude",
-          "3": "Thermodynamics",
-          "4": "Hemisphere"
-        },
-        "questionText": "Which of the following is NOT a geographic concept?"
-      },
-      "8": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "American Revolution",
-          "2": "World War II",
-          "3": "Civil Rights Movement",
-          "4": "Video game update"
-        },
-        "questionText": "Which of the following is NOT a historical event studied in social studies?"
-      },
-      "9": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Citizenship",
-          "2": "Photoshop skills",
-          "3": "Community involvement",
-          "4": "Rule of law"
-        },
-        "questionText": "Which of the following is NOT a concept typically emphasized in civics education?"
+        "quiz": {
+          "0": {
+            "questionText": "What does cultural anthropology primarily study?",
+            "options": {
+              "1": "Ancient fossils",
+              "2": "Physical traits of humans",
+              "3": "Cultural practices and beliefs",
+              "4": "Weather patterns"
+            },
+            "correctOptionKey": "3"
+          },
+          "1": {
+            "questionText": "Which of the following is an example of a cultural tradition?",
+            "options": {
+              "1": "Photosynthesis",
+              "2": "Thanksgiving dinner",
+              "3": "Erosion",
+              "4": "Gravity"
+            },
+            "correctOptionKey": "2"
+          },
+          "2": {
+            "questionText": "A matriarchal society is led primarily by:",
+            "options": {
+              "1": "Children",
+              "2": "Elders",
+              "3": "Women",
+              "4": "Men"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       }
     }
   },
@@ -443,106 +405,96 @@ final data = {
   "Economics": {
     "title": "Economics",
     "image_url": "https://img.freepik.com/free-vector/economic-growth_24877-49241.jpg?t=st=1742829891~exp=1742833491~hmac=0d53498aa637a9366ce1779d2e3584f8aea820dea79ec3000ade2c2eba5cb004&w=1380",
-    "question": {
-      "0": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Supply",
-          "2": "Demand",
-          "3": "Equilibrium",
-          "4": "Photosynthesis"
+    "courses": {
+      "Microeconomics Essentials": {
+        "image_url": "https://img.freepik.com/free-vector/business-investors-balancing-scales-achieving-profit-growth_74855-20004.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Supply and Demand",
+            "content": "Understand how supply and demand interact to determine prices in a market economy."
+          },
+          "lesson2": {
+            "title": "2. Market Structures",
+            "content": "Explore different types of market structures including perfect competition, monopoly, and oligopoly."
+          }
         },
-        "questionText": "Which of the following is NOT an economic concept?"
+        "quiz": {
+          "0": {
+            "questionText": "What happens when demand increases and supply remains unchanged?",
+            "options": {
+              "1": "Price falls",
+              "2": "Price rises",
+              "3": "Supply increases",
+              "4": "Demand decreases"
+            },
+            "correctOptionKey": "2"
+          },
+          "1": {
+            "questionText": "Which market structure has many sellers and identical products?",
+            "options": {
+              "1": "Monopoly",
+              "2": "Oligopoly",
+              "3": "Perfect competition",
+              "4": "Monopolistic competition"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "In economics, what is 'opportunity cost'?",
+            "options": {
+              "1": "The cost of labor",
+              "2": "The price of goods",
+              "3": "The value of the next best alternative",
+              "4": "The total cost of production"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Scarcity",
-          "2": "Abundance of unlimited resources",
-          "3": "Opportunity cost",
-          "4": "Trade-offs"
+      "Macroeconomics Fundamentals": {
+        "image_url": "https://img.freepik.com/free-vector/macroeconomics-flat-vector-illustration-with-globe-image-centre-currency-tied-balloons-kettlebells-symbolizing-changing-market_1284-76978.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. GDP and Economic Growth",
+            "content": "Learn what Gross Domestic Product (GDP) is and how it measures the health of an economy."
+          },
+          "lesson2": {
+            "title": "2. Inflation and Unemployment",
+            "content": "Understand the causes and impacts of inflation and unemployment on the economy."
+          }
         },
-        "questionText": "Which of the following contradicts a basic principle of economics?"
-      },
-      "2": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Capital",
-          "2": "Labor",
-          "3": "Oxygen",
-          "4": "Land"
-        },
-        "questionText": "Which of the following is NOT considered a factor of production in economics?"
-      },
-      "3": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Inflation",
-          "2": "Interest rates",
-          "3": "Unemployment",
-          "4": "Baking soda"
-        },
-        "questionText": "Which of the following measures the general increase in prices over time?"
-      },
-      "4": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Microeconomics",
-          "2": "Macroeconomics",
-          "3": "Behavioral economics",
-          "4": "Astrophysics"
-        },
-        "questionText": "Which of the following is NOT a branch of economics?"
-      },
-      "5": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Gross Domestic Product (GDP)",
-          "2": "Net Present Value",
-          "3": "Return on Investment (ROI)",
-          "4": "Compound Interest"
-        },
-        "questionText": "Which metric is used to measure the total value of goods and services produced in a country?"
-      },
-      "6": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Monopoly",
-          "2": "Oligopoly",
-          "3": "Utopia",
-          "4": "Perfect competition"
-        },
-        "questionText": "Which of the following is NOT a type of market structure in economics?"
-      },
-      "7": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Subsidy",
-          "2": "Lightning",
-          "3": "Tax",
-          "4": "Tariff"
-        },
-        "questionText": "Which of the following is NOT a fiscal tool used by governments?"
-      },
-      "8": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Federal Reserve",
-          "2": "Central Bank",
-          "3": "International Monetary Fund",
-          "4": "Spotify"
-        },
-        "questionText": "Which of the following is NOT an economic institution?"
-      },
-      "9": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Supply increases, price decreases",
-          "2": "Supply decreases, price decreases",
-          "3": "Demand increases, price decreases",
-          "4": "Demand remains the same, price decreases"
-        },
-        "questionText": "According to the law of supply and demand, what typically happens when supply increases and demand stays constant?"
+        "quiz": {
+          "0": {
+            "questionText": "What does GDP stand for?",
+            "options": {
+              "1": "Gross Development Product",
+              "2": "Gross Domestic Product",
+              "3": "Global Domestic Pricing",
+              "4": "Government Debt Percentage"
+            },
+            "correctOptionKey": "2"
+          },
+          "1": {
+            "questionText": "High inflation typically means:",
+            "options": {
+              "1": "Falling prices",
+              "2": "Stable economy",
+              "3": "Rising prices",
+              "4": "Lower employment"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "What is unemployment?",
+            "options": {
+              "1": "People choosing not to work",
+              "2": "People without jobs who are actively seeking work",
+              "3": "Retired individuals",
+              "4": "Part-time workers"
+            },
+            "correctOptionKey": "2"
+          }
+        }
       }
     }
   },
@@ -550,213 +502,193 @@ final data = {
   "Business": {
     "title": "Business",
     "image_url": "https://img.freepik.com/free-photo/group-diverse-people-having-business-meeting_53876-25060.jpg?ga=GA1.1.222963692.1743719257&semt=ais_hybrid&w=740",
-    "question": {
-      "0": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Revenue",
-          "2": "Profit",
-          "3": "Chlorophyll",
-          "4": "Expense"
+    "courses": {
+      "Business Management 101": {
+        "image_url": "https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Principles of Management",
+            "content": "Learn the core functions of management including planning, organizing, leading, and controlling."
+          },
+          "lesson2": {
+            "title": "2. Organizational Structures",
+            "content": "Explore different types of business structures such as hierarchical, flat, and matrix organizations."
+          }
         },
-        "questionText": "Which of the following is NOT a common business term?"
+        "quiz": {
+          "0": {
+            "questionText": "Which of the following is NOT a function of management?",
+            "options": {
+              "1": "Leading",
+              "2": "Organizing",
+              "3": "Inventing",
+              "4": "Planning"
+            },
+            "correctOptionKey": "3"
+          },
+          "1": {
+            "questionText": "A flat organizational structure typically has:",
+            "options": {
+              "1": "Many levels of management",
+              "2": "Few levels of hierarchy",
+              "3": "Strict reporting lines",
+              "4": "No leadership roles"
+            },
+            "correctOptionKey": "2"
+          },
+          "2": {
+            "questionText": "Which management function involves evaluating performance?",
+            "options": {
+              "1": "Planning",
+              "2": "Controlling",
+              "3": "Organizing",
+              "4": "Leading"
+            },
+            "correctOptionKey": "2"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Sole proprietorship",
-          "2": "Partnership",
-          "3": "Corporation",
-          "4": "Hurricane"
+      "Entrepreneurship and Innovation": {
+        "image_url": "https://cdn.pixabay.com/photo/2016/11/18/22/44/blueprints-1837238_1280.jpg",
+        "lessons": {
+          "lesson1": {
+            "title": "1. What is Entrepreneurship?",
+            "content": "Define entrepreneurship and learn about the characteristics of successful entrepreneurs."
+          },
+          "lesson2": {
+            "title": "2. From Idea to Startup",
+            "content": "Explore how to develop a business idea, validate it, and build a minimum viable product (MVP)."
+          }
         },
-        "questionText": "Which of the following is NOT a type of business ownership?"
-      },
-      "2": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Marketing",
-          "2": "Photosynthesis",
-          "3": "Finance",
-          "4": "Operations"
-        },
-        "questionText": "Which of the following is NOT a function of business?"
-      },
-      "3": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Entrepreneur",
-          "2": "Employee",
-          "3": "Manager",
-          "4": "Supervisor"
-        },
-        "questionText": "What do you call someone who starts their own business?"
-      },
-      "4": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "SWOT analysis",
-          "2": "Business plan",
-          "3": "Marketing strategy",
-          "4": "Photoshop filter"
-        },
-        "questionText": "Which of the following is NOT typically found in a business strategy document?"
-      },
-      "5": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Target market",
-          "2": "Lunar eclipse",
-          "3": "Branding",
-          "4": "Customer satisfaction"
-        },
-        "questionText": "Which of the following is NOT directly related to business marketing?"
-      },
-      "6": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Assets",
-          "2": "Liabilities",
-          "3": "Penguins",
-          "4": "Equity"
-        },
-        "questionText": "Which of the following is NOT a component of a balance sheet?"
-      },
-      "7": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Mission statement",
-          "2": "Vision statement",
-          "3": "Core values",
-          "4": "Song lyrics"
-        },
-        "questionText": "Which of the following is NOT typically part of a company’s foundational documents?"
-      },
-      "8": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Cash flow",
-          "2": "Revenue",
-          "3": "Profit",
-          "4": "Gravity"
-        },
-        "questionText": "Which of the following measures the amount of money moving in and out of a business?"
-      },
-      "9": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Market research",
-          "2": "Volcano eruption",
-          "3": "Customer feedback",
-          "4": "Competitive analysis"
-        },
-        "questionText": "Which of the following is NOT part of a typical business market analysis?"
+        "quiz": {
+          "0": {
+            "questionText": "Entrepreneurs are best known for:",
+            "options": {
+              "1": "Avoiding risk",
+              "2": "Following instructions",
+              "3": "Starting and growing businesses",
+              "4": "Working in government"
+            },
+            "correctOptionKey": "3"
+          },
+          "1": {
+            "questionText": "What does MVP stand for in a startup context?",
+            "options": {
+              "1": "Most Valuable Partner",
+              "2": "Minimum Viable Product",
+              "3": "Market Value Proposition",
+              "4": "Major Venture Pitch"
+            },
+            "correctOptionKey": "2"
+          },
+          "2": {
+            "questionText": "Which of the following is a trait commonly associated with entrepreneurs?",
+            "options": {
+              "1": "Risk aversion",
+              "2": "Creativity",
+              "3": "Conformity",
+              "4": "Indecisiveness"
+            },
+            "correctOptionKey": "2"
+          }
+        }
       }
     }
   },
 
-  "Languages": {
-    "title": "Languages",
+  "Language Arts": {
+    "title": "Language Arts",
     "image_url": "https://img.freepik.com/free-vector/flat-international-mother-language-day-illustration_23-2149219243.jpg?ga=GA1.1.222963692.1743719257&semt=ais_hybrid&w=740",
-    "question": {
-      "0": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Spanish",
-          "2": "Mandarin",
-          "3": "Gravity",
-          "4": "French"
+    "courses": {
+      "Reading Comprehension Strategies": {
+        "image_url": "https://img.freepik.com/free-vector/hand-drawn-english-book-background_23-2149483336.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Finding the Main Idea",
+            "content": "Learn how to identify the main idea and supporting details in a passage."
+          },
+          "lesson2": {
+            "title": "2. Making Inferences",
+            "content": "Practice drawing conclusions and reading between the lines using context clues."
+          }
         },
-        "questionText": "Which of the following is NOT a spoken language?"
+        "quiz": {
+          "0": {
+            "questionText": "What is the main idea of a passage?",
+            "options": {
+              "1": "The title of the story",
+              "2": "The most important point the author makes",
+              "3": "A fun fact from the text",
+              "4": "The first sentence"
+            },
+            "correctOptionKey": "2"
+          },
+          "1": {
+            "questionText": "Which clue helps you make an inference?",
+            "options": {
+              "1": "The author’s name",
+              "2": "Chapter number",
+              "3": "Contextual hints in the text",
+              "4": "Page count"
+            },
+            "correctOptionKey": "3"
+          },
+          "2": {
+            "questionText": "Supporting details are used to:",
+            "options": {
+              "1": "Summarize the text",
+              "2": "Explain the title",
+              "3": "Support the main idea",
+              "4": "Add random facts"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       },
-      "1": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Verb",
-          "2": "Noun",
-          "3": "Adjective",
-          "4": "Telescope"
+      "Creative Writing Fundamentals": {
+        "image_url": "https://img.freepik.com/free-vector/watercolor-literature-illustration_52683-81536.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740",
+        "lessons": {
+          "lesson1": {
+            "title": "1. Story Elements",
+            "content": "Understand key elements of storytelling such as character, setting, plot, and conflict."
+          },
+          "lesson2": {
+            "title": "2. Writing Dialogue",
+            "content": "Learn how to create natural-sounding dialogue that develops characters and moves the plot forward."
+          }
         },
-        "questionText": "Which of the following is NOT a part of speech?"
-      },
-      "2": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Grammar",
-          "2": "Quantum mechanics",
-          "3": "Vocabulary",
-          "4": "Pronunciation"
-        },
-        "questionText": "Which of the following is an essential component of language learning?"
-      },
-      "3": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Arabic",
-          "2": "HTML",
-          "3": "German",
-          "4": "Japanese"
-        },
-        "questionText": "Which of the following is NOT a natural human language?"
-      },
-      "4": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "English",
-          "2": "Italian",
-          "3": "Algorithm",
-          "4": "Portuguese"
-        },
-        "questionText": "Which of the following is NOT a Romance language?"
-      },
-      "5": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Syntax",
-          "2": "Sentence structure",
-          "3": "Context",
-          "4": "Astrology"
-        },
-        "questionText": "Which of the following is NOT related to language structure?"
-      },
-      "6": {
-        "correctOptionKey": "2",
-        "options": {
-          "1": "Duolingo",
-          "2": "Stethoscope",
-          "3": "Flashcards",
-          "4": "Language exchange"
-        },
-        "questionText": "Which of the following is NOT typically used in language learning?"
-      },
-      "7": {
-        "correctOptionKey": "1",
-        "options": {
-          "1": "Translation",
-          "2": "Chemistry",
-          "3": "Interpretation",
-          "4": "Bilingualism"
-        },
-        "questionText": "Which of the following involves converting written text from one language to another?"
-      },
-      "8": {
-        "correctOptionKey": "3",
-        "options": {
-          "1": "Tone",
-          "2": "Accent",
-          "3": "Magnetism",
-          "4": "Dialect"
-        },
-        "questionText": "Which of the following is NOT related to spoken language variation?"
-      },
-      "9": {
-        "correctOptionKey": "4",
-        "options": {
-          "1": "Reading",
-          "2": "Writing",
-          "3": "Speaking",
-          "4": "Teleporting"
-        },
-        "questionText": "Which of the following is NOT a skill practiced when learning a new language?"
+        "quiz": {
+          "0": {
+            "questionText": "Which of the following is a key element of a story?",
+            "options": {
+              "1": "Index",
+              "2": "Setting",
+              "3": "Footnote",
+              "4": "Glossary"
+            },
+            "correctOptionKey": "2"
+          },
+          "1": {
+            "questionText": "Why is dialogue important in a story?",
+            "options": {
+              "1": "To confuse the reader",
+              "2": "To make characters more realistic",
+              "3": "To replace the plot",
+              "4": "To describe the setting"
+            },
+            "correctOptionKey": "2"
+          },
+          "2": {
+            "questionText": "What is the conflict in a story?",
+            "options": {
+              "1": "The resolution",
+              "2": "The background setting",
+              "3": "The struggle between opposing forces",
+              "4": "A list of characters"
+            },
+            "correctOptionKey": "3"
+          }
+        }
       }
     }
   }

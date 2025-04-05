@@ -1,4 +1,4 @@
-// main.dart
+/* lib/main.dart */
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +15,7 @@ void main() async {
 class StudyApp extends StatelessWidget {
   const StudyApp({super.key});
 
-  // Define a custom theme for consistent styling across the app.
+  // Define a custom theme for consistent styling across the app
   ThemeData _buildTheme() {
     return ThemeData(
       primaryColor: Colors.blueAccent,
@@ -45,11 +45,11 @@ class StudyApp extends StatelessWidget {
       title: 'Study App',
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
-      // Listen to the authentication state to decide the starting screen.
+      // Authentication state decides the starting screen
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          // If the connection is active, determine if a user is signed in.
+          // If the connection is active, determine if a user is signed in
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
               return const NavBarCategorySelection();
@@ -57,7 +57,7 @@ class StudyApp extends StatelessWidget {
               return const LogInScreen();
             }
           }
-          // While waiting for authentication state, show a loading spinner.
+          // While waiting for authentication state, show a loading spinner
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),

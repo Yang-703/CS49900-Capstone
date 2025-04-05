@@ -1,16 +1,16 @@
-// field_screen.dart
+/* lib/Views/field_screen.dart */
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/quiz_screen.dart';
-
-class FieldCategory extends StatefulWidget {
-  const FieldCategory({super.key});
+import 'package:flutter_study_app/Views/course_screen.dart';
+class FieldScreen extends StatefulWidget {
+  const FieldScreen({super.key});
 
   @override
-  State<FieldCategory> createState() => _FieldCategoryState();
+  State<FieldScreen> createState() => _FieldScreenState();
 }
 
-class _FieldCategoryState extends State<FieldCategory> {
+class _FieldScreenState extends State<FieldScreen> {
   // Firestore collection reference for fields of study
   final CollectionReference categoriesCollection =
       FirebaseFirestore.instance.collection("questions");
@@ -39,7 +39,7 @@ class _FieldCategoryState extends State<FieldCategory> {
           gradient: LinearGradient(
             colors: [
               Colors.white,
-              Color(0xFFE3F2FD), // Light blueish background
+              Color(0xFFE3F2FD),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -52,7 +52,7 @@ class _FieldCategoryState extends State<FieldCategory> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // A heading that tells users to pick a category
+                // A heading that tells users to pick a field of study
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Text(
@@ -66,7 +66,7 @@ class _FieldCategoryState extends State<FieldCategory> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // The main area that displays the categories in a grid
+                // The main area that displays the categories or fields in a grid
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: categoriesCollection.snapshots(),
@@ -79,11 +79,11 @@ class _FieldCategoryState extends State<FieldCategory> {
                       }
                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                         return const Center(
-                          child: Text("No quiz categories available"),
+                          child: Text("No field data available"),
                         );
                       }
 
-                      // List of colors for category cards
+                      // List of colors for field cards
                       final List<Color> cardColors = [
                         Color(0xFF6C63FF),
                         Color(0xFF00C9A7),
@@ -102,8 +102,7 @@ class _FieldCategoryState extends State<FieldCategory> {
                           mainAxisSpacing: 15,
                         ),
                         itemBuilder: (context, index) {
-                          final DocumentSnapshot doc =
-                              snapshot.data!.docs[index];
+                          final DocumentSnapshot doc = snapshot.data!.docs[index];
                           final String title = doc['title'] ?? 'No Title';
                           final String imageUrl = doc['image_url'] ?? '';
 
@@ -113,7 +112,7 @@ class _FieldCategoryState extends State<FieldCategory> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      QuizScreen(categoryName: title),
+                                    CourseScreen(fieldName: title),
                                 ),
                               );
                             },
@@ -135,8 +134,7 @@ class _FieldCategoryState extends State<FieldCategory> {
                                       imageUrl,
                                       height: 130,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
+                                      errorBuilder: (context, error, stackTrace) {
                                         return Container(
                                           height: 130,
                                           color: Colors.grey.shade300,
@@ -147,16 +145,17 @@ class _FieldCategoryState extends State<FieldCategory> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  // Display category title
+                                  const SizedBox(height: 14),
+                                  // Display field of study title
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
                                     ),
-                                    child: Text(
+                                    child: AutoSizeText(
                                       title,
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
+                                      minFontSize: 12,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         height: 1.2,

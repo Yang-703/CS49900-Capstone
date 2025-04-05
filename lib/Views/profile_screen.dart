@@ -1,4 +1,4 @@
-// profile_screen.dart
+/* lib/Views/profile_screen.dart */
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_study_app/Views/login_screen.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -28,14 +27,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchUserData();
   }
 
-  // Fetch user data from Firestore.
+  // Fetch user data from Firestore
   Future<void> fetchUserData() async {
     if (user == null) return;
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user!.uid)
-          .get();
+        .collection("users")
+        .doc(user!.uid)
+        .get();
 
       if (documentSnapshot.exists) {
         setState(() {
@@ -59,15 +58,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // Update the profile image in Firestore.
+  // Update the profile image in Firestore
   Future<void> updateProfileImage(Uint8List imageBytes) async {
     if (user == null) return;
     try {
       String base64Image = base64Encode(imageBytes);
       await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user!.uid)
-          .set({'photoBase64': base64Image}, SetOptions(merge: true));
+        .collection("users")
+        .doc(user!.uid)
+        .set({'photoBase64': base64Image}, SetOptions(merge: true));
       setState(() {
         profileImageBytes = imageBytes;
       });
@@ -77,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // Pick an image from the gallery.
+  // Pick an image from the gallery
   Future<void> pickImageFromGallery() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -86,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await updateProfileImage(imageBytes);
   }
 
-  // Sign out the current user.
+  // Sign out the current user
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
@@ -98,7 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar remains consistent.
       appBar: AppBar(
         title: const Text(
           "Profile",
@@ -108,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.blueAccent,
         elevation: 0,
       ),
-      // Gradient background for a modern look.
+      // Gradient background
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -126,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          // Profile picture with a camera icon overlay.
+                          // Profile picture with a camera icon overlay
                           GestureDetector(
                             onTap: pickImageFromGallery,
                             child: Stack(
@@ -164,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          // Display user stars in a styled container.
+                          // Display user stars in a container.
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),

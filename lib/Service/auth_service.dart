@@ -1,4 +1,4 @@
-// auth_service.dart
+/* lib/Service/auth_service.dart */
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,8 +26,7 @@ class AuthService {
         );
 
         // Convert profile image to base64 if provided.
-        String? base64Image =
-            profileImage != null ? base64Encode(profileImage) : null;
+        String? base64Image = profileImage != null ? base64Encode(profileImage) : null;
 
         // Storing the user data in Firestore with standardized field names.
         await _firestore.collection("users").doc(credential.user!.uid).set({

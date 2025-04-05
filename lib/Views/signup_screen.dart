@@ -1,4 +1,4 @@
-// signup_screen.dart
+/* lib/Views/signup_screen.dart */
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +6,6 @@ import 'package:flutter_study_app/Service/auth_service.dart';
 import 'package:flutter_study_app/Views/login_screen.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -34,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       isLoading = true;
     });
-    // For now, profileImage is not picked; you can add image picker logic later.
+    // For now, profileImage is not picked. Image picker during sign up logic can be added here later
     Uint8List? profileImageBytes;
     final result = await _authService.signUpUser(
       email: emailController.text.trim(),
@@ -59,7 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Apply a gradient background to improve the visual appeal.
+    // Gradient background
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -76,10 +74,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               key: _formKey,
               child: ListView(
                 children: [
-                  // Header with illustration and text.
+                  // Header with illustration and text
                   Column(
                     children: [
-                      // Ensure the asset exists in the project.
+                      // Ensure the asset exists in the project
                       Image.asset(
                         "assets/undraw_signup.png",
                         height: 250,
@@ -105,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  // Name input field.
+                  // Name input field
                   TextFormField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -126,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Email input field.
+                  // Email input field
                   TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -151,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Password input field.
+                  // Password input field
                   TextFormField(
                     controller: passwordController,
                     decoration: InputDecoration(
@@ -186,7 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 30),
-                  // Signup button.
+                  // Signup button
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : SizedBox(
@@ -197,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                   const SizedBox(height: 20),
-                  // Navigation to Login screen.
+                  // Navigation to Login screen
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
