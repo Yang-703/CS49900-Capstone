@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Views/course_screen.dart';
+
 class FieldScreen extends StatefulWidget {
   const FieldScreen({super.key});
 
@@ -32,93 +33,7 @@ class _FieldScreenState extends State<FieldScreen> {
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
         elevation: 0,
-                ///////////////////////////////////////
-        leading: Builder( 
-          builder: (context) => IconButton(
-            icon: const Padding(
-              padding: EdgeInsets.only(left:12.0),
-              child: Icon(
-                Icons.menu, 
-                color: Colors.white, 
-              ),
-            ), 
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },  
-          ),
-        ),
-        ///////////////////////////////////////
       ),
-      ///////////////////////////////////////
-      drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 78, 138, 207), // Match background with nav bar
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 120.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25.0),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.settings,
-                      color: Colors.white, // Match nav bar icon color
-                    ),
-                    title: Text(
-                      'Settings',
-                      style: TextStyle(color: Colors.white), // Match nav bar text color
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SettingsPage()),
-                      );
-                    }
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25.0),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.info,
-                      color: Colors.white, // Match nav bar icon color
-                    ),
-                    title: Text(
-                      'Contact Us',
-                      style: TextStyle(color: Colors.white), // Match nav bar text color
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ContactPage()),
-                      );
-                    }
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, bottom: 25),
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  color: Colors.white, // Match nav bar icon color
-                ),
-                title: Text(
-                  'Sign Out',
-                  style: TextStyle(color: Colors.white), // Match nav bar text color
-                ),
-                onTap: signOut, // Sign out on tap with confirmation
-              ),
-            ),
-          ],
-        ),
-      ),
-      extendBody: true,
-      ///////////////////////////////////////
       // A light gradient background for a nicer look
       body: Container(
         decoration: const BoxDecoration(
