@@ -16,20 +16,46 @@ class ContactPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back, // Left-pointing arrow
+            Icons.arrow_back,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen (HomePage)
+            Navigator.pop(context);
           },
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // App Introduction
+              const Text(
+                "About Our App",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "Our app is designed to make learning fun, vibrant, and consistent. "
+                "We believe in building good habits while educating users in a way that’s engaging and stimulating. "
+                "With gamified elements like leaderboards and point systems, we encourage hard work, diligence, "
+                "and a love for learning through rewarding experiences.",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              const Divider(thickness: 1),
+
+              // Contact Section
               const Text(
                 "Contact Information",
                 style: TextStyle(
@@ -39,7 +65,6 @@ class ContactPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Email Address
               const Text(
                 "Email: someone@gmail.com",
                 style: TextStyle(
@@ -49,7 +74,6 @@ class ContactPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Phone Number
               const Text(
                 "Phone: +1 (234) 567-890",
                 style: TextStyle(
@@ -59,13 +83,24 @@ class ContactPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Address
               const Text(
                 "Address: 123 Sesame Street",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 40),
+
+              const Center(
+                child: Text(
+                  "Have More Questions? Contact Us!",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.black54,
+                  ),
                 ),
               ),
             ],

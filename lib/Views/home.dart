@@ -7,8 +7,8 @@ import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
 import 'package:flutter_study_app/Views/login_screen.dart';
-import 'package:flutter_study_app/Views/contact.dart'; 
-import 'package:flutter_study_app/Views/settings.dart'; 
+import 'package:flutter_study_app/Views/contact.dart';
+import 'package:flutter_study_app/Views/settings.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,53 +66,55 @@ class _HomePage extends State<HomePage> {
   ////////////////////////////////////////////////////////////////////
   // Show confirmation dialog before sign out
   Future<void> signOut() async {
-  // Show a confirmation dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Color.fromARGB(255, 65, 133, 211), // Match the app's background color
-        title: Text(
-          'Are you sure?',
-          style: TextStyle(
-            color: Colors.white, // Matching the text color
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        content: Text(
-          'Do you really want to sign out?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-            },
-            child: const Text(
-              'No',
-              style: TextStyle(
-                color: Colors.white, // Matching the button color
-                fontSize: 16,
-              ),
+    // Show a confirmation dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color.fromARGB(
+            255,
+            65,
+            133,
+            211,
+          ), // Match the app's background color
+          title: Text(
+            'Are you sure?',
+            style: TextStyle(
+              color: Colors.white, // Matching the text color
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
-          TextButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LogInScreen()),
-              );
-            },
-            child: const Text(
-              'Yes',
-              style: TextStyle(
-                color: Colors.white, // Matching the button color
-                fontSize: 16,
+          content: Text(
+            'Do you really want to sign out?',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: Colors.white, // Matching the button color
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogInScreen()),
+                );
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  color: Colors.white, // Matching the button color
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -136,33 +138,34 @@ class _HomePage extends State<HomePage> {
         backgroundColor: Colors.blueAccent,
         elevation: 0,
         ///////////////////////////////////////
-        leading: Builder( 
-          builder: (context) => IconButton(
-            icon: const Padding(
-              padding: EdgeInsets.only(left:12.0),
-              child: Icon(
-                Icons.menu, 
-                color: Colors.white, 
+        leading: Builder(
+          builder:
+              (context) => IconButton(
+                icon: const Padding(
+                  padding: EdgeInsets.only(left: 12.0),
+                  child: Icon(Icons.menu, color: Colors.white),
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
               ),
-            ), 
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },  
-          ),
         ),
         ///////////////////////////////////////
       ),
       ///////////////////////////////////////
       drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 78, 138, 207), // Match background with nav bar
+        backgroundColor: Color.fromARGB(
+          255,
+          78,
+          138,
+          207,
+        ), // Match background with nav bar
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 120.0),
-                ),
+                Padding(padding: const EdgeInsets.only(top: 120.0)),
                 Padding(
                   padding: EdgeInsets.only(left: 25.0),
                   child: ListTile(
@@ -172,14 +175,18 @@ class _HomePage extends State<HomePage> {
                     ),
                     title: Text(
                       'Settings',
-                      style: TextStyle(color: Colors.white), // Match nav bar text color
+                      style: TextStyle(
+                        color: Colors.white,
+                      ), // Match nav bar text color
                     ),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SettingsPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
                       );
-                    }
+                    },
                   ),
                 ),
                 Padding(
@@ -191,14 +198,18 @@ class _HomePage extends State<HomePage> {
                     ),
                     title: Text(
                       'Contact Us',
-                      style: TextStyle(color: Colors.white), // Match nav bar text color
+                      style: TextStyle(
+                        color: Colors.white,
+                      ), // Match nav bar text color
                     ),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ContactPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const ContactPage(),
+                        ),
                       );
-                    }
+                    },
                   ),
                 ),
               ],
@@ -212,7 +223,9 @@ class _HomePage extends State<HomePage> {
                 ),
                 title: Text(
                   'Sign Out',
-                  style: TextStyle(color: Colors.white), // Match nav bar text color
+                  style: TextStyle(
+                    color: Colors.white,
+                  ), // Match nav bar text color
                 ),
                 onTap: signOut, // Sign out on tap with confirmation
               ),
@@ -225,9 +238,9 @@ class _HomePage extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20,),
+          SizedBox(height: 20),
           Align(
-            alignment: Alignment(0,2),
+            alignment: Alignment(0, 2),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -236,7 +249,7 @@ class _HomePage extends State<HomePage> {
                     color: const Color.fromARGB(255, 110, 110, 110),
                     spreadRadius: 2,
                     blurRadius: 2,
-                    offset: Offset(5,5),
+                    offset: Offset(5, 5),
                   ),
                 ],
                 gradient: RadialGradient(
@@ -268,12 +281,40 @@ class _HomePage extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(height: 50,),
-          Text('In Progress', style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),),
-          DecoratedBox(decoration: BoxDecoration(color: Colors.blue),
-          child:FlutterCarousel(items: [Placeholder()], 
-          options: FlutterCarouselOptions(enableInfiniteScroll: true, height: 200, enlargeCenterPage: true)),
-          )
+          SizedBox(height: 50),
+          Text(
+            'In Progress',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(color: Colors.black),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                border: Border.symmetric(
+                  horizontal: BorderSide(color: Colors.black, width: 5),
+                ),
+              ),
+              child: FlutterCarousel(
+                items: [
+                  Image.network(
+                    'https://img.freepik.com/free-vector/happy-students-learning-math-college-school-isolated-flat-illustration_74855-10799.jpg?t=st=1743803894~exp=1743807494~hmac=386aca8ddd97248d92d49248016498daca23b1070ec8c204cbdccd10a1c063be&w=2000',
+                    fit: BoxFit.contain,
+                  ),
+                  Image.network(
+                    'https://img.freepik.com/free-vector/flat-design-concept-science-word_23-2148536280.jpg?ga=GA1.1.1796863793.1743803859&semt=ais_hybrid&w=740',
+                    fit: BoxFit.contain,
+                  ),
+                ],
+                options: FlutterCarouselOptions(
+                  enableInfiniteScroll: true,
+                  height: 200,
+                  enlargeCenterPage: true,
+                  viewportFraction: .65,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
