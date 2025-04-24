@@ -91,7 +91,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await updateProfileImage(bytes);
   }
 
-  // Sign out the current user
   Future<void> signOut() async {
     showDialog(
       context: context,
