@@ -52,20 +52,24 @@ class _FieldScreenState extends State<FieldScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 10),
                 // A heading that tells users to pick a field of study
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    "Choose a Subject or Field",
+                  child: AutoSizeText(
+                    "What do you want to learn today?",
                     style: TextStyle(
                       height: 2,
-                      fontSize: 22,
+                      fontSize: 21,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
+                    maxLines: 2,
+                    minFontSize: 20,
+                    maxFontSize: 30,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 10),
                 // The main area that displays the categories or fields in a grid
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
@@ -145,7 +149,7 @@ class _FieldScreenState extends State<FieldScreen> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(height: 14),
+                                  const SizedBox(height: 8),
                                   // Display field of study title
                                   Padding(
                                     padding: const EdgeInsets.symmetric(

@@ -1,4 +1,4 @@
-// lib/Views/result_screen.dart
+/* lib/Views/result_screen.dart */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 class ResultScreen extends StatelessWidget {
   final int stars;
   final int totalQuestions;
+  static const int _coinRate = 5;
 
   const ResultScreen({
     super.key,
@@ -38,6 +39,8 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate coins earned in this quiz
+    final int coinsEarned = stars * _coinRate;
     // The updateUserstars function can also be invoked here if needed
     return Scaffold(
       appBar: AppBar(
@@ -70,17 +73,18 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                "You earned: ${(stars)} stars",
-                style: const TextStyle(
-                  fontSize: 22,
-                ),
+                "You earned: $stars ${stars == 1 ? 'star' : 'stars'}",
+                style: const TextStyle(fontSize: 22),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Coins obtained: $coinsEarned",
+                style: const TextStyle(fontSize: 22),
               ),
               const SizedBox(height: 10),
               Text(
                 "You answered ${(stars / totalQuestions * 100).toStringAsFixed(2)}% of questions correctly",
-                style: const TextStyle(
-                  fontSize: 22,
-                ),
+                style: const TextStyle(fontSize: 21),
               ),
               const SizedBox(height: 30),
               Row(
@@ -91,15 +95,12 @@ class ResultScreen extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const NavBarCategorySelection(
-                                  initialIndex: 0,
-                                ),
-                            ),
+                            builder: (context) => const NavBarCategorySelection(initialIndex: 0),
+                          ),
                           (route) => false,
                         );
                       },
-                      buttonText: "Start New Quiz",
+                      buttonText: "Homepage",
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -109,10 +110,7 @@ class ResultScreen extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const NavBarCategorySelection(
-                                  initialIndex: 1,
-                                ),
+                            builder: (context) => const NavBarCategorySelection(initialIndex: 2),
                           ),
                           (route) => false,
                         );

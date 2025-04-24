@@ -1,8 +1,10 @@
 /* lib/Views/nav_bar_category.dart */
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/leaderboard.dart';
-import 'package:flutter_study_app/Views/profile_screen.dart';
+import 'package:flutter_study_app/Views/home.dart';
 import 'package:flutter_study_app/Views/field_screen.dart';
+import 'package:flutter_study_app/Views/leaderboard.dart';
+import 'package:flutter_study_app/Views/shop_screen.dart';
+import 'package:flutter_study_app/Views/profile_screen.dart';
 
 class NavBarCategorySelection extends StatefulWidget {
   final int initialIndex;
@@ -19,8 +21,10 @@ class _NavBarCategorySelectionState
 
   // Pages list for the navigation items
   final List<Widget> pages = [
+    const HomePage(),
     const FieldScreen(),
     const Leaderboard(),
+    const ShopScreen(),
     const ProfileScreen(),
   ];
 
@@ -41,7 +45,6 @@ class _NavBarCategorySelectionState
         child: pages[selectedIndex],
       ),
       backgroundColor: Colors.white,
-      // Improved Bottom Navigation Bar with custom container
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -61,8 +64,8 @@ class _NavBarCategorySelectionState
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            //topLeft: Radius.circular(20), //////////////////////////
+            //topRight: Radius.circular(20), //////////////////////////
           ),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -75,14 +78,25 @@ class _NavBarCategorySelectionState
             },
             selectedItemColor: Colors.blueAccent,
             unselectedItemColor: Colors.grey,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            iconSize: 30,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                label: 'Courses',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.leaderboard),
                 label: 'Leaderboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Shop',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

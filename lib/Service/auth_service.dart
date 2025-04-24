@@ -8,9 +8,9 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Signs up a new user with the provided [email], [password], and [name].
-  /// Optionally accepts a [profileImage] as bytes.
-  /// Returns "User created successfully" on success or a descriptive error message.
+  /// Signs up a new user with the provided [email], [password], and [name]
+  // Optionally accepts a profileImage as bytes
+  // Returns "User created successfully" on success or a descriptive error message
   Future<String> signUpUser({
     required String email,
     required String password,
@@ -25,15 +25,16 @@ class AuthService {
           password: password,
         );
 
-        // Convert profile image to base64 if provided.
+        // Convert profile image to base64 if provided
         String? base64Image = profileImage != null ? base64Encode(profileImage) : null;
 
-        // Storing the user data in Firestore with standardized field names.
+        // Storing the user data in Firestore with standardized field names
         await _firestore.collection("users").doc(credential.user!.uid).set({
           'name': name,
           'email': email,
           'uid': credential.user!.uid,
-          'stars': 0, // standardized to lowercase.
+          'stars': 0,
+          'coins': 0,
           'photoBase64': base64Image,
         });
 
@@ -49,8 +50,8 @@ class AuthService {
     return res;
   }
 
-  /// Logs in a user with the provided [email] and [password].
-  /// Returns "Login successful" on success or a descriptive error message.
+  // Logs in a user with the provided email and password
+  // Returns "Login successful" on success or a descriptive error message
   Future<String> logInUser({
     required String email,
     required String password,

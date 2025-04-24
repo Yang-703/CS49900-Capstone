@@ -22,6 +22,8 @@ class CourseQuizScreen extends StatefulWidget {
 }
 
 class _CourseQuizScreenState extends State<CourseQuizScreen> {
+  static const int _coinRate = 5; // coins per correct answer
+
   List<Map<String, dynamic>> questions = [];
   int currentIndex = 0;
   int stars = 0;
@@ -50,7 +52,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
         'correctOptionKey': int.tryParse(q['correctOptionKey'].toString()) ?? 0,
       };
     }).toList();
-
     // Optionally, we can shuffle or sort further. For a course quiz with a fixed order, we assume sorted by key.
     setState(() {
       questions = qs;
@@ -76,6 +77,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
       });
     } else {
       await _updateUserStars();
+      await _updateUserCoins(); // award coins after quiz
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -104,6 +106,24 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     }
   }
 
+  Future<void> _updateUserCoins() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    try {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        final snapshot = await transaction.get(userRef);
+        if (!snapshot.exists) return;
+        int existingCoins = snapshot['coins'] ?? 0;
+        transaction.update(userRef, {
+          'coins': existingCoins + (stars * _coinRate),
+        });
+      });
+    } catch (e) {
+      debugPrint('Error updating coins: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
@@ -115,7 +135,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
         body: const Center(child: Text("No Questions Available")),
       );
     }
-
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.courseName} Quiz (${currentIndex + 1}/${questions.length})"),
@@ -128,8 +147,8 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
             // Progress indicator
             LinearProgressIndicator(
               value: (currentIndex + 1) / questions.length,
-              backgroundColor: Colors.grey.shade300,
-              color: Colors.blueAccent,
+              backgroundColor: Colors.grey.shade400,
+              color: Colors.green,
               minHeight: 8,
             ),
             const SizedBox(height: 20),
@@ -146,7 +165,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: Colors.black,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -184,7 +203,11 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     bool isSelected = selectedOption == index;
     Color bgColor;
     if (hasAnswered) {
-      bgColor = isCorrect ? Colors.green.shade300 : isSelected ? Colors.red.shade300 : Colors.grey.shade200;
+      bgColor = isCorrect
+          ? Colors.green.shade300
+          : isSelected
+              ? Colors.red.shade300
+              : Colors.grey.shade200;
     } else {
       bgColor = Colors.grey.shade200;
     }

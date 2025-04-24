@@ -165,7 +165,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ),
                   const SizedBox(height: 20),
-                  // Sign Up navigation text
+                  // Sign up navigation text
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

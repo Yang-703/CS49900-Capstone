@@ -50,16 +50,18 @@ class Leaderboard extends StatelessWidget {
                   ),
                   const Positioned(
                     top: 60,
-                    right: 150,
-                    left: 150,
-                    child: Text(
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Text(
                       "Leaderboard",
                       style: TextStyle(
-                        fontSize: 19,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                      )
-                    )
+                      ),
+                      ),
+                    ),
                   ),
                   if (topThree.isNotEmpty)
                     Positioned(
@@ -89,7 +91,7 @@ class Leaderboard extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final user = remainingUser[index];
                     final rank = index + 4;
-                    return _buildRegularUser(user, rank, context);
+                    return _buildOtherUser(user, rank, context);
                   },
                 ),
               ),
@@ -146,7 +148,7 @@ class Leaderboard extends StatelessWidget {
             height: 25,
             width: 90,
             decoration: BoxDecoration(
-              color: Colors.black54,
+              color: const Color.fromARGB(255, 66, 65, 65),
               borderRadius: BorderRadius.circular(50),
             ),
             child: Row(
@@ -155,7 +157,7 @@ class Leaderboard extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.star,
-                  color: Colors.amber,
+                  color: Colors.yellowAccent,
                   size: 20,
                 ),
                 const SizedBox(width: 5),
@@ -163,7 +165,7 @@ class Leaderboard extends StatelessWidget {
                   "${user['stars']}",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.amberAccent,
+                    color: Colors.yellowAccent,
                   ),
                 )
               ],
@@ -174,8 +176,8 @@ class Leaderboard extends StatelessWidget {
     );
   }
 
-  // Regular user entries are wrapped in a Card
-  Widget _buildRegularUser(Map<String, dynamic> user, int rank, BuildContext context) {
+  // Other user entries are wrapped in a Card
+  Widget _buildOtherUser(Map<String, dynamic> user, int rank, BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       elevation: 2,
@@ -237,7 +239,7 @@ class Leaderboard extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.star,
-                    color: Colors.amber,
+                    color: Colors.yellowAccent,
                     size: 20,
                   ),
                   const SizedBox(width: 5),
@@ -245,7 +247,7 @@ class Leaderboard extends StatelessWidget {
                     "${user['stars']}",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.amberAccent,
+                      color: Colors.yellowAccent,
                     ),
                   )
                 ],
