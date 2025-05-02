@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/auth_service.dart';
-import 'package:flutter_study_app/Views/login_screen.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
+import 'login_screen.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 

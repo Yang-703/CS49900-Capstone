@@ -5,17 +5,26 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_study_app/firebase_options.dart';
 import 'package:flutter_study_app/Views/login_screen.dart';
 import 'package:flutter_study_app/Views/nav_bar_category.dart';
+//import 'package:flutter_study_app/Data/existing_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  /*
+  // CALL TO UPLOAD ALL QUESTIONS TO FIRESTORE
+  try {
+    await uploadQuestionsToFirebase();
+    debugPrint('Questions uploaded successfully');
+  } catch (e) {
+    debugPrint('Error uploading questions: $e');
+  }
+  */
   runApp(const StudyApp());
 }
 
 class StudyApp extends StatelessWidget {
   const StudyApp({super.key});
 
-  // Define a custom theme for consistent styling across the app
   ThemeData _buildTheme() {
     return ThemeData(
       primaryColor: Colors.blueAccent,
@@ -45,11 +54,9 @@ class StudyApp extends StatelessWidget {
       title: 'Study App',
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
-      // Authentication state decides the starting screen
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          // If the connection is active, determine if a user is signed in
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
               return const NavBarCategorySelection();
@@ -57,11 +64,8 @@ class StudyApp extends StatelessWidget {
               return const LogInScreen();
             }
           }
-          // While waiting for authentication state, show a loading spinner
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         },
       ),

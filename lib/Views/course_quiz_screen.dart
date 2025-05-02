@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/result_screen.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
+import 'result_screen.dart';
 
 class CourseQuizScreen extends StatefulWidget {
   final String fieldName;

@@ -2,9 +2,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/nav_bar_category.dart';
-import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_study_app/Widgets/my_button.dart';
+import 'nav_bar_category.dart';
 
 class ResultScreen extends StatelessWidget {
   final int stars;

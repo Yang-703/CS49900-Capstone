@@ -1,10 +1,10 @@
 /* lib/Views/login_screen.dart */
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/auth_service.dart';
-import 'package:flutter_study_app/Views/nav_bar_category.dart';
-import 'package:flutter_study_app/Views/signup_screen.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
+import 'nav_bar_category.dart';
+import 'signup_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});

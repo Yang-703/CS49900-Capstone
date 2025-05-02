@@ -1,8 +1,8 @@
 /* lib/Views/course_screen.dart */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/course_detail_screen.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'course_detail_screen.dart';
 
 class CourseScreen extends StatelessWidget {
   final String fieldName;

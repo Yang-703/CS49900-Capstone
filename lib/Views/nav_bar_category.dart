@@ -1,10 +1,10 @@
 /* lib/Views/nav_bar_category.dart */
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/home.dart';
-import 'package:flutter_study_app/Views/field_screen.dart';
-import 'package:flutter_study_app/Views/leaderboard.dart';
-import 'package:flutter_study_app/Views/shop_screen.dart';
-import 'package:flutter_study_app/Views/profile_screen.dart';
+import 'home.dart';
+import 'field_screen.dart';
+import 'leaderboard.dart';
+import 'shop_screen.dart';
+import 'profile_screen.dart';
 
 class NavBarCategorySelection extends StatefulWidget {
   final int initialIndex;

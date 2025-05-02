@@ -1,6 +1,4 @@
 /* lib/Data/existing_data.dart */
-
-// To upload data in firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> uploadQuestionsToFirebase() async {

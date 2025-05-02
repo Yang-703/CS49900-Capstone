@@ -4,11 +4,11 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/login_screen.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
-import 'package:image_picker/image_picker.dart';
-import '../Service/streak_service.dart';
+import 'package:flutter_study_app/Service/streak_service.dart';
+import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

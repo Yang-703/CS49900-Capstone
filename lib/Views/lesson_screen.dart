@@ -1,5 +1,4 @@
 /* lib/Views/lesson_screen.dart */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/progress_service.dart';
 

@@ -4,13 +4,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter_study_app/Views/login_screen.dart';
-import 'package:flutter_study_app/Views/contact.dart'; 
-import 'package:flutter_study_app/Views/settings.dart';
-import 'package:flutter_study_app/Views/course_detail_screen.dart';
+import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:flutter_study_app/Service/my_courses_service.dart'; 
+import 'login_screen.dart';
+import 'contact.dart'; 
+import 'settings.dart';
+import 'course_detail_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,7 +1,6 @@
 /* lib/Views/course_detail_screen.dart */
-
 import 'package:flutter/material.dart';
-import '../Service/progress_service.dart';
+import 'package:flutter_study_app/Service/progress_service.dart';
 import 'lesson_screen.dart';
 import 'course_quiz_screen.dart';
 
