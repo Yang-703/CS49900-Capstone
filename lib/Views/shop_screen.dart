@@ -19,6 +19,8 @@ class ShopScreen extends StatelessWidget {
           backgroundColor: Colors.blueAccent,
           bottom: TabBar(
             isScrollable: false,
+            labelColor: const Color.fromARGB(255, 252, 227, 7),
+            unselectedLabelColor: Colors.white,
             tabs: ShopService.categories.map((c) {
               return Tab(text: c, icon: Icon(_iconForCategory(c)));
             }).toList(),
@@ -26,7 +28,6 @@ class ShopScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            // Live coin balance
             StreamBuilder<int>(
               stream: ShopService.coinStream(),
               builder: (context, coinSnap) {

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'streak_service.dart';
 
-// Handles lesson completion tracking for each user
 class ProgressService {
   static final _fs = FirebaseFirestore.instance;
   static final _auth = FirebaseAuth.instance;
@@ -17,7 +16,6 @@ class ProgressService {
           .collection('progress')
           .doc('$field|$course|$lessonId');
 
-  // Mark a lesson complete and register the day
   static Future<void> markLessonComplete(
       String field, String course, String lessonId) async {
     if (_user == null) return;
@@ -27,11 +25,9 @@ class ProgressService {
       SetOptions(merge: true),
     );
 
-    // Update streak.
     await StreakService.recordStudy();
   }
 
-  // Stream returning ALL completed lesson IDs for this course
   static Stream<Set<String>> lessonCompletionStream(
       String field, String course) {
     if (_user == null) return const Stream.empty();

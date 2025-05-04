@@ -12,17 +12,14 @@ class FieldScreen extends StatefulWidget {
 }
 
 class _FieldScreenState extends State<FieldScreen> {
-  // Firestore collection reference for fields of study
   final CollectionReference categoriesCollection =
       FirebaseFirestore.instance.collection("questions");
 
   @override
   Widget build(BuildContext context) {
-    // Adjust grid columns based on screen width (2 for mobile, 3 for larger screens)
     final int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 3 : 2;
 
     return Scaffold(
-      // AppBar with a title
       appBar: AppBar(
         title: const Text(
           "Explore Courses",
@@ -34,7 +31,6 @@ class _FieldScreenState extends State<FieldScreen> {
         backgroundColor: Colors.blueAccent,
         elevation: 0,
       ),
-      // A light gradient background for a nicer look
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -54,7 +50,6 @@ class _FieldScreenState extends State<FieldScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                // A heading that tells users to pick a field of study
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: AutoSizeText(
@@ -71,7 +66,6 @@ class _FieldScreenState extends State<FieldScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // The main area that displays the categories or fields in a grid
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: categoriesCollection.snapshots(),
@@ -88,7 +82,6 @@ class _FieldScreenState extends State<FieldScreen> {
                         );
                       }
 
-                      // List of colors for field cards
                       final List<Color> cardColors = [
                         Color(0xFF6C63FF),
                         Color(0xFF00C9A7),
@@ -130,7 +123,6 @@ class _FieldScreenState extends State<FieldScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  // Display category image with error handling
                                   ClipRRect(
                                     borderRadius: const BorderRadius.vertical(
                                       top: Radius.circular(16),
@@ -151,7 +143,6 @@ class _FieldScreenState extends State<FieldScreen> {
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  // Display field of study title
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 8,

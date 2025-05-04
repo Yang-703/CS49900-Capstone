@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
+import 'package:flutter_study_app/Service/quiz_service.dart';
 import 'result_screen.dart';
 
 class CourseQuizScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class CourseQuizScreen extends StatefulWidget {
 }
 
 class _CourseQuizScreenState extends State<CourseQuizScreen> {
-  static const int _coinRate = 5; // coins per correct answer
+  static const int _coinRate = 5;
 
   List<Map<String, dynamic>> questions = [];
   int currentIndex = 0;
@@ -37,11 +38,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
   }
 
   void _prepareQuestions() {
-    // Convert quizData map into a list of questions sorted by key (keys start at index 0)
     final quizMap = widget.quizData;
     List<Map<String, dynamic>> qs = quizMap.entries.map((entry) {
       final q = entry.value as Map<String, dynamic>;
-      // Ensure the options are in the correct order by sorting their keys
       final optionsMap = q['options'] as Map<String, dynamic>;
       final optionList = optionsMap.entries.toList()
         ..sort((a, b) => int.parse(a.key).compareTo(int.parse(b.key)));
@@ -52,7 +51,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
         'correctOptionKey': int.tryParse(q['correctOptionKey'].toString()) ?? 0,
       };
     }).toList();
-    // Optionally, we can shuffle or sort further. For a course quiz with a fixed order, we assume sorted by key.
     setState(() {
       questions = qs;
     });
@@ -76,17 +74,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
         selectedOption = null;
       });
     } else {
-      await _updateUserStars();
-      await _updateUserCoins(); // award coins after quiz
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ResultScreen(
-            stars: stars,
-            totalQuestions: questions.length,
-          ),
-        ),
-      );
+      await _handleFinish();
     }
   }
 
@@ -97,7 +85,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
       final userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         final snapshot = await transaction.get(userRef);
-        if (!snapshot.exists) return;
+        if (!snapshot.exists) {
+          throw Exception("User does not exist!");
+        }
         int existingStars = snapshot['stars'] ?? 0;
         transaction.update(userRef, {'stars': existingStars + stars});
       });
@@ -124,6 +114,36 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     }
   }
 
+  Future<void> _handleFinish() async {
+    final quizId = '${widget.fieldName}_${widget.courseName}';
+    final status = await QuizService.getQuizStatus(quizId);
+    final canReward = !status.firstCompleted || status.extraLifeActive;
+    final bool didReward = canReward && stars > 0;
+    if (didReward) {
+      await _updateUserStars();
+      await _updateUserCoins();
+      if (!status.firstCompleted) {
+        await QuizService.markFirstCompleted(quizId);
+      } else {
+        await QuizService.consumeExtraLife(quizId);
+      }
+    }
+    
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultScreen(
+          fieldName: widget.fieldName,
+          courseName: widget.courseName,
+          quizData: widget.quizData,
+          stars: stars,
+          totalQuestions: questions.length,
+          didReward: didReward,
+        ),
+      ), 
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
@@ -144,7 +164,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Progress indicator
             LinearProgressIndicator(
               value: (currentIndex + 1) / questions.length,
               backgroundColor: Colors.grey.shade400,
@@ -152,7 +171,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
               minHeight: 8,
             ),
             const SizedBox(height: 20),
-            // Question Card
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -172,7 +190,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            // Answer Options
             Expanded(
               child: ListView.separated(
                 itemCount: questions[currentIndex]['options'].length,
@@ -182,7 +199,6 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
                 },
               ),
             ),
-            // Next / Finish Button
             if (hasAnswered)
               SizedBox(
                 width: double.infinity,

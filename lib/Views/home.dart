@@ -115,8 +115,6 @@ class _HomePageState extends State<HomePage> {
       stream: MyCoursesService.myCoursesStream(),
       builder: (context, snapshot) {
         final courses = snapshot.data ?? [];
-
-        // Split into two groups
         final inProgress = courses
             .where((c) => c.totalLessons == 0
                 ? false
@@ -134,16 +132,12 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 20),
             _welcomeCard(),
-
-            // ------------- IN‑PROGRESS --------------
             const SizedBox(height: 40),
             _sectionTitle('In Progress'),
             if (inProgress.isEmpty)
               _emptyMessage('You have no ongoing courses.\nStart learning today!')
             else
               _coursesCarousel(inProgress),
-
-            // ------------- COMPLETED ----------------
             if (completed.isNotEmpty) ...[
               const SizedBox(height: 40),
               _sectionTitle('Completed'),
@@ -222,7 +216,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Carousel card
   Widget _courseCard(CourseProgress cp, {bool completed = false}) {
     final double progress =
         cp.totalLessons == 0 ? 0.0 : cp.completedLessons / cp.totalLessons;
@@ -246,7 +239,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image
             Expanded(
               child: ClipRRect(
                 borderRadius:
@@ -257,7 +249,6 @@ class _HomePageState extends State<HomePage> {
                     : _placeholder(),
               ),
             ),
-            // Title + progress / completed label
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -290,7 +281,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              //'${cp.completedLessons}/${cp.totalLessons} lessons',
                               '${(progress * 100).toStringAsFixed(0)}% completed - ${cp.fieldName}',
                               style: const TextStyle(fontSize: 12),
                             ),

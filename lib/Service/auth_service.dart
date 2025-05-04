@@ -7,10 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  /// Signs up a new user with the provided [email], [password], and [name]
-  // Optionally accepts a profileImage as bytes
-  // Returns "User created successfully" on success or a descriptive error message
   Future<String> signUpUser({
     required String email,
     required String password,
@@ -25,16 +21,15 @@ class AuthService {
           password: password,
         );
 
-        // Convert profile image to base64 if provided
         String? base64Image = profileImage != null ? base64Encode(profileImage) : null;
 
-        // Storing the user data in Firestore with standardized field names
         await _firestore.collection("users").doc(credential.user!.uid).set({
           'name': name,
           'email': email,
           'uid': credential.user!.uid,
           'stars': 0,
           'coins': 0,
+          'extraLives': 0,
           'photoBase64': base64Image,
         });
 
@@ -49,9 +44,6 @@ class AuthService {
     }
     return res;
   }
-
-  // Logs in a user with the provided email and password
-  // Returns "Login successful" on success or a descriptive error message
   Future<String> logInUser({
     required String email,
     required String password,
@@ -73,5 +65,19 @@ class AuthService {
       res = err.toString();
     }
     return res;
+  }
+
+  Future<String> resetPassword({ required String email }) async {
+    try {
+      if (email.trim().isEmpty) {
+        return "Please enter your email";
+      }
+      await _auth.sendPasswordResetEmail(email: email.trim());
+      return "A reset link has been sent to your email.";
+    } on FirebaseAuthException catch (e) {
+      return e.message ?? "An unexpected error occurred";
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

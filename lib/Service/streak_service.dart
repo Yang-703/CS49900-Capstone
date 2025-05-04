@@ -2,8 +2,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-// Keeps track of consecutive days studied with current and highest for the signed‑in user.
-// Set Firestore schema inside each user doc
 class StreakService {
   static final _fs = FirebaseFirestore.instance;
   static final _auth = FirebaseAuth.instance;
@@ -12,11 +10,9 @@ class StreakService {
   static DocumentReference<Map<String, dynamic>> get _userDoc =>
       _fs.collection('users').doc(_user!.uid);
 
-  // Call on any study action (lesson open, quiz finish).
-  // Updates currentStreak, highestStreak, and lastStudyDate
   static Future<void> recordStudy() async {
     if (_user == null) return;
-    final today = _todayString(); // YYYY‑MM‑DD in UTC
+    final today = _todayString();
 
     await _fs.runTransaction((tx) async {
       final snap = await tx.get(_userDoc);
@@ -30,10 +26,8 @@ class StreakService {
         lastDate = data['lastStudyDate'] as String?;
       }
 
-      // If already recorded today, do nothing
       if (lastDate == today) return;
 
-      // Determine new current streak
       int newCurrent;
       if (lastDate != null &&
           DateTime.parse(today)
@@ -45,7 +39,6 @@ class StreakService {
         newCurrent = 1;
       }
 
-      // Update highest if needed
       final newHighest = newCurrent > highest ? newCurrent : highest;
 
       tx.set(_userDoc, {
@@ -56,8 +49,6 @@ class StreakService {
     });
   }
 
-  // Resets current streak to 0 if user missed >1 day since last study.
-  // Call at app startup to keep currentStreak accurate
   static Future<void> syncStreak() async {
     if (_user == null) return;
     final snap = await _userDoc.get();
@@ -73,22 +64,21 @@ class StreakService {
     }
   }
 
-  // Live stream of current streak.
   static Stream<int> currentStreakStream() {
     if (_user == null) return const Stream.empty();
     return _userDoc.snapshots().map((snap) => snap.data()?['currentStreak'] ?? 0);
   }
 
-  // Live stream of highest streak.
   static Stream<int> highestStreakStream() {
     if (_user == null) return const Stream.empty();
     return _userDoc.snapshots().map((snap) => snap.data()?['highestStreak'] ?? 0);
   }
 
   static String _todayString() {
-    final now = DateTime.now().toUtc();
-    return '${now.year.toString().padLeft(4, '0')}-'
-        '${now.month.toString().padLeft(2, '0')}-'
-        '${now.day.toString().padLeft(2, '0')}';
+    final now = DateTime.now();
+    final localDate = DateTime(now.year, now.month, now.day);
+    return '${localDate.year.toString().padLeft(4, '0')}-'
+      '${localDate.month.toString().padLeft(2, '0')}-'
+      '${localDate.day.toString().padLeft(2, '0')}';
   }
 }

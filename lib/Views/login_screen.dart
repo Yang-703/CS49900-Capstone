@@ -5,6 +5,7 @@ import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'nav_bar_category.dart';
 import 'signup_screen.dart';
+import 'forgot_password_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -50,7 +51,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Gradient background
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -67,10 +67,8 @@ class _LogInScreenState extends State<LogInScreen> {
               key: _formKey,
               child: ListView(
                 children: [
-                  // Header section with illustration and welcoming text
                   Column(
                     children: [
-                      // Ensure the asset exists in the project
                       Image.asset(
                         "assets/undraw_login.png",
                         height: 250,
@@ -96,7 +94,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  // Email input field with rounded corners and icon
                   TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -122,7 +119,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Password input field with icon and toggle visibility
                   TextFormField(
                     controller: passwordController,
                     decoration: InputDecoration(
@@ -154,7 +150,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                   const SizedBox(height: 30),
-                  // Login button
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : SizedBox(
@@ -165,7 +160,30 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ),
                   const SizedBox(height: 20),
-                  // Sign up navigation text
+                  //
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  //
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -185,15 +203,17 @@ class _LogInScreenState extends State<LogInScreen> {
                         child: const Text(
                           "Sign Up Here",
                           style: TextStyle(
+                            color: Colors.blueAccent,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent,
+
                           ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
+
                 ],
               ),
             ),

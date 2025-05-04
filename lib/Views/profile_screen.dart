@@ -29,13 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // Sync streak if needed
     StreakService.syncStreak();
 
-    // Fetch user data
     fetchUserData();
 
-    // Listen to streak updates
     StreakService.currentStreakStream().listen((val) {
       if (mounted) setState(() => currentStreak = val);
     });
@@ -96,9 +93,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: const Color(0xFF4E8ACF),
-        title: const Text('Are you sure?',
+        title: const Text("You're about to sign out.",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        content: const Text('Do you really want to sign out?',
+        content: const Text('Are you sure you want to continue?',
             style: TextStyle(color: Colors.white)),
         actions: [
           TextButton(
@@ -195,7 +192,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 10),
 
-                        // Current Streak
                         _statChip(
                           icon: Icons.local_fire_department,
                           color: Colors.orangeAccent,
@@ -205,7 +201,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 10),
 
-                        // Highest Streak
                         _statChip(
                           icon: Icons.emoji_events,
                           color: const Color.fromARGB(255, 237, 157, 251),

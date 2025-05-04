@@ -8,7 +8,6 @@ class ShopService {
   static final _auth = FirebaseAuth.instance;
   static User? get _user => _auth.currentUser;
 
-  // Live coin balance
   static Stream<int> coinStream() {
     if (_user == null) return Stream.value(0);
     return _fs
@@ -18,7 +17,6 @@ class ShopService {
         .map((snap) => snap.data()?['coins'] ?? 0);
   }
 
-  // Shop categories
   static const List<String> categories = [
     'Featured',
     'Themes',
@@ -26,7 +24,6 @@ class ShopService {
     'Boosts',
   ];
 
-  // Static demo items (can be swapped for Firestore fetch)
   static final List<ShopItem> _allItems = [
     ShopItem(
       id: 'theme_dark',
@@ -35,6 +32,7 @@ class ShopService {
       cost: 50,
       imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
       category: 'Themes',
+      type: 'theme',
     ),
     ShopItem(
       id: 'frame_gold',
@@ -43,6 +41,7 @@ class ShopService {
       cost: 30,
       imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
       category: 'Cosmetic',
+      type: 'cosmetic',
     ),
     ShopItem(
       id: 'boost_life',
@@ -51,6 +50,7 @@ class ShopService {
       cost: 15,
       imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
       category: 'Boosts',
+      type: 'extra_life',
     ),
     ShopItem(
       id: 'featured_bundle',
@@ -59,11 +59,20 @@ class ShopService {
       cost: 100,
       imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
       category: 'Featured',
+      type: 'bundle',
     ),
-    // Add more items here
   ];
 
-  // Stream items for a given category (Featured shows all ‘Featured’)
+
+  static Stream<int> extraLivesStream() {
+    if (_user == null) return Stream.value(0);
+    return _fs
+      .collection('users')
+      .doc(_user!.uid)
+      .snapshots()
+      .map((snap) => snap.data()?['extraLives'] ?? 0);
+  }
+
   static Stream<List<ShopItem>> itemsStream(String category) {
     final filtered = _allItems
         .where((it) => category == 'Featured'
@@ -73,7 +82,6 @@ class ShopService {
     return Stream.value(filtered);
   }
 
-  // User’s owned item IDs
   static Stream<Set<String>> inventoryStream() {
     if (_user == null) return const Stream.empty();
     return _fs
@@ -84,7 +92,6 @@ class ShopService {
         .map((snap) => snap.docs.map((d) => d.id).toSet());
   }
 
-  // Purchase logic: deduct coins & record inventory entry
   static Future<void> purchaseItem(ShopItem item) async {
     if (_user == null) return;
     final userRef = _fs.collection('users').doc(_user!.uid);
@@ -94,9 +101,20 @@ class ShopService {
       if (!snap.exists) throw Exception('User not found');
       final coins = snap.data()?['coins'] ?? 0;
       if (coins < item.cost) throw Exception('Insufficient coins');
-      tx.update(userRef, {'coins': coins - item.cost});
-      final invRef = userRef.collection('inventory').doc(item.id);
-      tx.set(invRef, {'purchasedAt': FieldValue.serverTimestamp()});
+      tx.update(userRef, {
+        'coins': coins - item.cost,
+        if (item.type == 'extra_life') 'extraLives': FieldValue.increment(1),
+      });
+      if (item.type != 'extra_life') {
+        final invRef = userRef.collection('inventory').doc(item.id);
+        tx.set(invRef, {'purchasedAt': FieldValue.serverTimestamp()});
+      }
     });
+  }
+
+  static Future<void> consumeExtraLife() async {
+    if (_user == null) return;
+    final userRef = _fs.collection('users').doc(_user!.uid);
+    await userRef.update({'extraLives': FieldValue.increment(-1)});
   }
 }

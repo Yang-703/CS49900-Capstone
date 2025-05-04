@@ -26,7 +26,6 @@ class _LessonScreenState extends State<LessonScreen> {
   @override
   void initState() {
     super.initState();
-    // Mark as complete the moment the user opens the lesson
     ProgressService.markLessonComplete(
       widget.fieldName,
       widget.courseName,

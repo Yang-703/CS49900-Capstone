@@ -9,11 +9,10 @@ class CourseScreen extends StatelessWidget {
 
   const CourseScreen({super.key, required this.fieldName});
 
-  // Helper to set number of columns based on device width
   int getCrossAxisCount(double width) {
-    if (width < 600) return 1; // Phones
-    if (width < 1024) return 2; // Tablets
-    return 3; // Larger screens
+    if (width < 600) return 1;
+    if (width < 1024) return 2;
+    return 3;
   }
 
   @override
@@ -62,13 +61,12 @@ class CourseScreen extends StatelessWidget {
                 crossAxisCount: getCrossAxisCount(screenWidth),
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 3 / 2, // Adjust for card proportion
+                childAspectRatio: 3 / 2,
               ),
               itemBuilder: (context, index) {
                 final String courseName = courseNames[index];
                 final Map<String, dynamic> courseData =
                     Map<String, dynamic>.from(courses[courseName]);
-                // Retrieve the image URL for the course, or use a default placeholder.
                 final String courseImageUrl =
                     courseData["image_url"] ?? "https://via.placeholder.com/150";
 
@@ -94,8 +92,7 @@ class CourseScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(
-                          flex: 2, // Image takes 2/3 of space
-                          // Course image
+                          flex: 2,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(16),
@@ -112,9 +109,8 @@ class CourseScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Course name
                         Expanded(
-                          flex: 1, // Text takes 1/3 of space
+                          flex: 1,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

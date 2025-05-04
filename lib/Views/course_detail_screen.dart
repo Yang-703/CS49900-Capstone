@@ -18,12 +18,11 @@ class CourseDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Parse lessons
     final lessonsMap = courseData['lessons'] as Map<String, dynamic>? ?? {};
     final lessons = lessonsMap.entries.map((e) {
       final lesson = e.value as Map<String, dynamic>;
       return {
-        'id': e.key, // e.g. "lesson1"
+        'id': e.key,
         'title': lesson['title']?.toString() ?? 'Untitled',
         'content': lesson['content']?.toString() ?? '',
       };
@@ -50,7 +49,6 @@ class CourseDetailScreen extends StatelessWidget {
 
             return Column(
               children: [
-                // Course header
                 Container(
                   width: double.infinity,
                   padding:
@@ -94,7 +92,6 @@ class CourseDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Lesson list
                 Expanded(
                   child: ListView.separated(
                     itemCount: lessons.length + 1,
@@ -141,7 +138,6 @@ class CourseDetailScreen extends StatelessWidget {
                         );
                       }
 
-                      // Quiz button
                       final allDone = completedCount == total && total > 0;
                       return Padding(
                         padding: const EdgeInsets.only(top: 24.0),

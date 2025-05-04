@@ -1,47 +1,34 @@
 /* lib/Views/result_screen.dart */
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
+import 'package:flutter_study_app/Service/shop_service.dart';
+import 'package:flutter_study_app/Service/quiz_service.dart';
+import 'course_quiz_screen.dart';
 import 'nav_bar_category.dart';
 
 class ResultScreen extends StatelessWidget {
   final int stars;
   final int totalQuestions;
   static const int _coinRate = 5;
+  final String fieldName;
+  final String courseName;
+  final Map<String, dynamic> quizData;
+  final bool didReward; 
 
   const ResultScreen({
     super.key,
     required this.stars,
     required this.totalQuestions,
+    required this.fieldName,
+    required this.courseName,
+    required this.quizData,
+    required this.didReward,
   });
-
-  // Updates the user's accumulated stars in Firestore (This can be called in quiz_screen before navigating here)
-  Future<void> updateUserstars() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    try {
-      DocumentReference userRef =
-          FirebaseFirestore.instance.collection("users").doc(user.uid);
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        DocumentSnapshot snapshot = await transaction.get(userRef);
-        if (!snapshot.exists) {
-          throw Exception("User does not exist!");
-        }
-        int existingStars = snapshot['stars'] ?? 0;
-        transaction.update(userRef, {'stars': existingStars + stars});
-      });
-    } catch (e) {
-      debugPrint("Error updating stars: $e");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    // Calculate coins earned in this quiz
     final int coinsEarned = stars * _coinRate;
-    // The updateUserstars function can also be invoked here if needed
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -55,7 +42,6 @@ class ResultScreen extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              // Display a Lottie animation for visual feedback.
               Lottie.network(
                 "https://lottie.host/d7cc3291-7650-4c26-b9e0-4b8d0569a7ec/Epsc2qNzTb.json",
                 height: 200,
@@ -72,19 +58,60 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Text(
-                "You earned: $stars ${stars == 1 ? 'star' : 'stars'}",
-                style: const TextStyle(fontSize: 22),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Coins obtained: $coinsEarned",
-                style: const TextStyle(fontSize: 22),
-              ),
+              if (didReward) ...[
+                Text(
+                  "You earned: $stars ${stars == 1 ? 'star' : 'stars'}",
+                  style: const TextStyle(fontSize: 22),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Coins obtained: $coinsEarned",
+                  style: const TextStyle(fontSize: 22),
+                ),
+              ],
               const SizedBox(height: 10),
               Text(
                 "You answered ${(stars / totalQuestions * 100).toStringAsFixed(2)}% of questions correctly",
                 style: const TextStyle(fontSize: 21),
+              ),
+              const SizedBox(height: 20),
+              StreamBuilder<int>(
+                stream: ShopService.extraLivesStream(),
+                builder: (context, livesSnap) {
+                  final lives = livesSnap.data ?? 0;
+                  return FutureBuilder<QuizStatus>(
+                    future: QuizService.getQuizStatus('${fieldName}_$courseName'),
+                    builder: (context, statSnap) {
+                      if (!statSnap.hasData) return const SizedBox();
+                      final st = statSnap.data!;
+                      if (st.firstCompleted && lives > 0 && !st.extraLifeActive) {
+                        return Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await ShopService.consumeExtraLife();
+                                await QuizService.activateExtraLife('${fieldName}_$courseName');
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => CourseQuizScreen(
+                                      fieldName: fieldName,
+                                      courseName: courseName,
+                                      quizData: quizData,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text('Use Extra Life'),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  );
+                },
               ),
               const SizedBox(height: 30),
               Row(

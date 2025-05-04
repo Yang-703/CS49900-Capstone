@@ -10,15 +10,6 @@ import 'package:flutter_study_app/Views/nav_bar_category.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  /*
-  // CALL TO UPLOAD ALL QUESTIONS TO FIRESTORE
-  try {
-    await uploadQuestionsToFirebase();
-    debugPrint('Questions uploaded successfully');
-  } catch (e) {
-    debugPrint('Error uploading questions: $e');
-  }
-  */
   runApp(const StudyApp());
 }
 

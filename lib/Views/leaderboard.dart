@@ -176,7 +176,6 @@ class Leaderboard extends StatelessWidget {
     );
   }
 
-  // Other user entries are wrapped in a Card
   Widget _buildOtherUser(Map<String, dynamic> user, int rank, BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
@@ -189,7 +188,6 @@ class Leaderboard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
           children: [
-            // Rank number
             Text(
               '$rank',
               style: TextStyle(
@@ -199,7 +197,6 @@ class Leaderboard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            // Avatar
             CircleAvatar(
               radius: 25,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
@@ -215,7 +212,6 @@ class Leaderboard extends StatelessWidget {
                   : null,
             ),
             const SizedBox(width: 16),
-            // User name.
             Expanded(
               child: Text(
                 user['name'],
@@ -225,7 +221,6 @@ class Leaderboard extends StatelessWidget {
                 ),
               ),
             ),
-            // Total stars.
             Container(
               height: 30,
               width: 90,

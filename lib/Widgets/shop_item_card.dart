@@ -18,7 +18,9 @@ class ShopItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool canBuy = userCoins >= item.cost && !owned;
+    final isPermanent = item.type != 'extra_life';
+    final ownedPermanent = owned && isPermanent;
+    final bool canBuy = userCoins >= item.cost && !ownedPermanent;
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -26,7 +28,6 @@ class ShopItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Image section
           Expanded(
             child: ClipRRect(
               borderRadius:
@@ -42,7 +43,6 @@ class ShopItemCard extends StatelessWidget {
             ),
           ),
 
-          // Details section
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -62,10 +62,8 @@ class ShopItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
 
-                // Cost & Purchase button row
                 Row(
                   children: [
-                    // Cost display (scales down if too large)
                     Expanded(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -83,19 +81,21 @@ class ShopItemCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Purchase button
                     TextButton(
-                      onPressed: owned ? null : (canBuy ? onPurchase : null),
+                      onPressed: ownedPermanent ? null : (canBuy ? onPurchase : null),
                       style: TextButton.styleFrom(
-                        backgroundColor:
-                            owned ? Colors.blue : (canBuy ? Colors.green : Colors.red),
+                      backgroundColor: ownedPermanent
+                        ? Colors.blue
+                        : (canBuy ? Colors.green : Colors.red),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
                         minimumSize: const Size(80, 20),
                       ),
                       child: Text(
-                        owned ? 'Owned' : (canBuy ? 'Buy' : 'Too Expensive'),
+                      ownedPermanent
+                        ? 'Owned'
+                        : (canBuy ? 'Buy' : 'Too Expensive'),
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),

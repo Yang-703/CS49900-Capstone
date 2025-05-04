@@ -19,7 +19,6 @@ class _NavBarCategorySelectionState
     extends State<NavBarCategorySelection> {
   final PageStorageBucket bucket = PageStorageBucket();
 
-  // Pages list for the navigation items
   final List<Widget> pages = [
     const HomePage(),
     const FieldScreen(),
@@ -39,7 +38,6 @@ class _NavBarCategorySelectionState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Display the selected page
       body: PageStorage(
         bucket: bucket,
         child: pages[selectedIndex],
@@ -48,12 +46,10 @@ class _NavBarCategorySelectionState
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          // Rounded top corners
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
-          // Subtle shadow for depth
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
@@ -64,8 +60,6 @@ class _NavBarCategorySelectionState
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            //topLeft: Radius.circular(20), //////////////////////////
-            //topRight: Radius.circular(20), //////////////////////////
           ),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
