@@ -7,6 +7,7 @@ class ShopService {
   static final _fs = FirebaseFirestore.instance;
   static final _auth = FirebaseAuth.instance;
   static User? get _user => _auth.currentUser;
+  static List<ShopItem> get allItems => _allItems;
 
   static Stream<int> coinStream() {
     if (_user == null) return Stream.value(0);

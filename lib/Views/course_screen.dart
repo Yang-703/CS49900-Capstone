@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_study_app/Widgets/coin_star_card.dart';
 import 'course_detail_screen.dart';
 
 class CourseScreen extends StatelessWidget {
@@ -30,113 +31,120 @@ class CourseScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.blueAccent,
       ),
-      body: FutureBuilder<DocumentSnapshot>(
-        future: fieldsCollection.doc(fieldName).get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          }
-          if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(child: Text("No data available for $fieldName"));
-          }
+      body: Column(
+        children: [
+          UserStatusCard(),
+          Expanded(
+            child: FutureBuilder<DocumentSnapshot>(
+              future: fieldsCollection.doc(fieldName).get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                }
+                if (!snapshot.hasData || !snapshot.data!.exists) {
+                  return Center(child: Text("No data available for $fieldName"));
+                }
 
-          final data = snapshot.data!.data() as Map<String, dynamic>;
-          if (data["courses"] == null) {
-            return Center(child: Text("No courses available for $fieldName"));
-          }
+                final data = snapshot.data!.data() as Map<String, dynamic>;
+                if (data["courses"] == null) {
+                  return Center(child: Text("No courses available for $fieldName"));
+                }
 
-          final Map<String, dynamic> courses =
-              Map<String, dynamic>.from(data["courses"]);
-          final List<String> courseNames = courses.keys.toList();
-          final screenWidth = MediaQuery.of(context).size.width;
+                final Map<String, dynamic> courses =
+                    Map<String, dynamic>.from(data["courses"]);
+                final List<String> courseNames = courses.keys.toList();
+                final screenWidth = MediaQuery.of(context).size.width;
 
-          return Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: GridView.builder(
-              itemCount: courseNames.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: getCrossAxisCount(screenWidth),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 3 / 2,
-              ),
-              itemBuilder: (context, index) {
-                final String courseName = courseNames[index];
-                final Map<String, dynamic> courseData =
-                    Map<String, dynamic>.from(courses[courseName]);
-                final String courseImageUrl =
-                    courseData["image_url"] ?? "https://via.placeholder.com/150";
-
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CourseDetailScreen(
-                          fieldName: fieldName,
-                          courseName: courseName,
-                          courseData: courseData,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                return Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: GridView.builder(
+                    itemCount: courseNames.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: getCrossAxisCount(screenWidth),
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 3 / 2,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                            child: Image.network(
-                              courseImageUrl,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: Colors.grey.shade300,
-                                  child: const Icon(Icons.error),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AutoSizeText(
-                                courseName,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent,
-                                ),
-                                maxLines: 3,
-                                minFontSize: 12,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
+                    itemBuilder: (context, index) {
+                      final String courseName = courseNames[index];
+                      final Map<String, dynamic> courseData =
+                          Map<String, dynamic>.from(courses[courseName]);
+                      final String courseImageUrl =
+                          courseData["image_url"] ?? "https://via.placeholder.com/150";
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CourseDetailScreen(
+                                fieldName: fieldName,
+                                courseName: courseName,
+                                courseData: courseData,
                               ),
                             ),
+                          );
+                        },
+                        child: Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(16),
+                                  ),
+                                  child: Image.network(
+                                    courseImageUrl,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: Colors.grey.shade300,
+                                        child: const Icon(Icons.error),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AutoSizeText(
+                                      courseName,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blueAccent,
+                                      ),
+                                      maxLines: 3,
+                                      minFontSize: 12,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 );
               },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Service/shop_service.dart';
 import 'package:flutter_study_app/Service/quiz_service.dart';
+import 'package:flutter_study_app/Widgets/coin_star_card.dart';
 import 'course_quiz_screen.dart';
 import 'nav_bar_category.dart';
 
@@ -74,7 +75,8 @@ class ResultScreen extends StatelessWidget {
                 "You answered ${(stars / totalQuestions * 100).toStringAsFixed(2)}% of questions correctly",
                 style: const TextStyle(fontSize: 21),
               ),
-              const SizedBox(height: 20),
+              const UserStatusCard(),
+              const SizedBox(height: 10),
               StreamBuilder<int>(
                 stream: ShopService.extraLivesStream(),
                 builder: (context, livesSnap) {
@@ -113,7 +115,6 @@ class ResultScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(

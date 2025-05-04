@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study_app/Views/inventory_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
@@ -208,10 +209,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           value: highestStreak,
                           suffix: highestStreak == 1 ? ' day' : ' days',
                         ),
-                        const SizedBox(height: 30),
-
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => const InventoryScreen()),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.inventory, size: 32, color: Colors.blueAccent),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: const [
+                                          Text('Inventory', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                          SizedBox(height: 4),
+                                          Text('View the items you bought'),
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(Icons.arrow_forward_ios, size: 16),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         const Divider(thickness: 1),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 10),
 
                         SizedBox(
                           width: double.infinity,
