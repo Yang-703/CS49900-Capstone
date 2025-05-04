@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Service/quiz_service.dart';
+import 'package:flutter_study_app/Service/progress_service.dart';
 import 'result_screen.dart';
 
 class CourseQuizScreen extends StatefulWidget {
@@ -124,6 +125,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
       await _updateUserCoins();
       if (!status.firstCompleted) {
         await QuizService.markFirstCompleted(quizId);
+        await ProgressService.markQuizComplete(
+        widget.fieldName, widget.courseName
+      );
       } else {
         await QuizService.consumeExtraLife(quizId);
       }

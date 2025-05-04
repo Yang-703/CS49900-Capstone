@@ -5,16 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 class CourseProgress {
   final String fieldName;
   final String courseName;
-  final int completedLessons;
-  final int totalLessons;
+  final int completedItems;
+  final int totalItems;
   final String imageUrl;
   final Map<String, dynamic> courseData;
 
   CourseProgress({
     required this.fieldName,
     required this.courseName,
-    required this.completedLessons,
-    required this.totalLessons,
+    required this.completedItems,
+    required this.totalItems,
     required this.imageUrl,
     required this.courseData,
   });
@@ -47,26 +47,21 @@ class MyCoursesService {
         final parts = entry.key.split('|');
         final field = parts[0];
         final course = parts[1];
-        final completed = entry.value;
+        final completedCount = entry.value;
 
         final qDoc = await _fs.collection('questions').doc(field).get();
-        int total = 0;
-        String imgUrl = '';
-        Map<String, dynamic> courseData = {};
-        if (qDoc.exists) {
-          final data = qDoc.data()!;
-          courseData = Map<String, dynamic>.from(data['courses'][course] ?? {});
-          total = (courseData['lessons'] as Map?)?.length ?? 0;
-          imgUrl = courseData['image_url'] ?? '';
-        }
+        final data = qDoc.data()?['courses'][course] as Map<String, dynamic>? ?? {};
+        final lessonsCount = (data['lessons'] as Map?)?.length ?? 0;
+        final quizCount = data.containsKey('quiz') ? 1 : 0;
+        final totalCount = lessonsCount + quizCount;
 
         list.add(CourseProgress(
           fieldName: field,
           courseName: course,
-          completedLessons: completed,
-          totalLessons: total,
-          imageUrl: imgUrl,
-          courseData: courseData,
+          completedItems: completedCount,
+          totalItems: totalCount,
+          imageUrl: data['image_url'] ?? '',
+          courseData: data,
         ));
       }
 

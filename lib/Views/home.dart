@@ -115,17 +115,15 @@ class _HomePageState extends State<HomePage> {
       stream: MyCoursesService.myCoursesStream(),
       builder: (context, snapshot) {
         final courses = snapshot.data ?? [];
-        final inProgress = courses
-            .where((c) => c.totalLessons == 0
-                ? false
-                : c.completedLessons < c.totalLessons)
-            .toList();
+        final inProgress = courses.where((c) =>
+          c.totalItems > 0 &&
+          c.completedItems < c.totalItems
+        ).toList();
 
-        final completed = courses
-            .where((c) =>
-                c.totalLessons > 0 &&
-                c.completedLessons >= c.totalLessons)
-            .toList();
+        final completed = courses.where((c) =>
+          c.totalItems > 0 &&
+          c.completedItems >= c.totalItems
+        ).toList();
 
         return ListView(
           padding: const EdgeInsets.only(bottom: 40),
@@ -218,7 +216,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _courseCard(CourseProgress cp, {bool completed = false}) {
     final double progress =
-        cp.totalLessons == 0 ? 0.0 : cp.completedLessons / cp.totalLessons;
+      cp.totalItems == 0 ? 0.0 : cp.completedItems / cp.totalItems;
 
     return GestureDetector(
       onTap: () {
@@ -244,8 +242,10 @@ class _HomePageState extends State<HomePage> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(16)),
                 child: cp.imageUrl.isNotEmpty
-                    ? Image.network(cp.imageUrl, fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => _placeholder())
+                    ? Image.network(
+                      cp.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => _placeholder())
                     : _placeholder(),
               ),
             ),
@@ -259,33 +259,34 @@ class _HomePageState extends State<HomePage> {
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
-                  completed
-                      ? Row(
-                          children: const [
-                            Icon(Icons.check_circle,
-                                color: Colors.green, size: 18),
-                            SizedBox(width: 4),
-                            Text('Completed',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.green)),
-                          ],
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            LinearProgressIndicator(
-                              value: progress,
-                              minHeight: 6,
-                              backgroundColor: Colors.grey.shade300,
-                              color: Colors.blueAccent,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '${(progress * 100).toStringAsFixed(0)}% completed - ${cp.fieldName}',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
+                if (completed)
+                  Row(
+                    children: const [
+                      Icon(Icons.check_circle,
+                          color: Colors.green, size: 18),
+                      SizedBox(width: 4),
+                      Text('Completed',
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.green)),
+                    ],
+                  )
+                else
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 6,
+                        backgroundColor: Colors.grey.shade300,
+                        color: Colors.blueAccent,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${(progress * 100).toStringAsFixed(0)}% completed • ${cp.fieldName}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

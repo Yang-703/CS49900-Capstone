@@ -502,7 +502,7 @@ final data = {
     "image_url": "https://img.freepik.com/free-photo/group-diverse-people-having-business-meeting_53876-25060.jpg?ga=GA1.1.222963692.1743719257&semt=ais_hybrid&w=740",
     "courses": {
       "Business Management 101": {
-        "image_url": "https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "image_url": "https://img.freepik.com/free-vector/scrum-method-concept-illustration_114360-13019.jpg?t=st=1746333317~exp=1746336917~hmac=9428389177490d4e8e3630a4ca15b1e46eab7b10da9521916dfe80b270d12298&w=2000",
         "lessons": {
           "lesson1": {
             "title": "1. Principles of Management",
