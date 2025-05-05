@@ -29,6 +29,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
   int stars = 0;
   int? selectedOption;
   bool hasAnswered = false;
+  bool next = false;
 
   @override
   void initState() {
@@ -39,19 +40,22 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
   void _prepareQuestions() {
     // Convert quizData map into a list of questions sorted by key (keys start at index 0)
     final quizMap = widget.quizData;
-    List<Map<String, dynamic>> qs = quizMap.entries.map((entry) {
-      final q = entry.value as Map<String, dynamic>;
-      // Ensure the options are in the correct order by sorting their keys
-      final optionsMap = q['options'] as Map<String, dynamic>;
-      final optionList = optionsMap.entries.toList()
-        ..sort((a, b) => int.parse(a.key).compareTo(int.parse(b.key)));
-      final options = optionList.map((e) => e.value.toString()).toList();
-      return {
-        'questionText': q['questionText'] ?? "No Question",
-        'options': options,
-        'correctOptionKey': int.tryParse(q['correctOptionKey'].toString()) ?? 0,
-      };
-    }).toList();
+    List<Map<String, dynamic>> qs =
+        quizMap.entries.map((entry) {
+          final q = entry.value as Map<String, dynamic>;
+          // Ensure the options are in the correct order by sorting their keys
+          final optionsMap = q['options'] as Map<String, dynamic>;
+          final optionList =
+              optionsMap.entries.toList()
+                ..sort((a, b) => int.parse(a.key).compareTo(int.parse(b.key)));
+          final options = optionList.map((e) => e.value.toString()).toList();
+          return {
+            'questionText': q['questionText'] ?? "No Question",
+            'options': options,
+            'correctOptionKey':
+                int.tryParse(q['correctOptionKey'].toString()) ?? 0,
+          };
+        }).toList();
     // Optionally, we can shuffle or sort further. For a course quiz with a fixed order, we assume sorted by key.
     setState(() {
       questions = qs;
@@ -68,6 +72,12 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     });
   }
 
+  void selectAnswer(int index) {
+    setState(() {
+      selectedOption = index;
+    });
+  }
+
   Future<void> _nextQuestion() async {
     if (currentIndex < questions.length - 1) {
       setState(() {
@@ -81,10 +91,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ResultScreen(
-            stars: stars,
-            totalQuestions: questions.length,
-          ),
+          builder:
+              (context) =>
+                  ResultScreen(stars: stars, totalQuestions: questions.length),
         ),
       );
     }
@@ -94,7 +103,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     try {
-      final userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+      final userRef = FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid);
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         final snapshot = await transaction.get(userRef);
         if (!snapshot.exists) return;
@@ -110,7 +121,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     try {
-      final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      final userRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid);
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         final snapshot = await transaction.get(userRef);
         if (!snapshot.exists) return;
@@ -137,7 +150,9 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.courseName} Quiz (${currentIndex + 1}/${questions.length})"),
+        title: Text(
+          "${widget.courseName} Quiz (${currentIndex + 1}/${questions.length})",
+        ),
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
@@ -175,7 +190,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
             // Answer Options
             Expanded(
               child: ListView.separated(
-                itemCount: questions[currentIndex]['options'].length,
+                itemCount: questions[currentIndex].length,
                 separatorBuilder: (_, __) => const SizedBox(height: 15),
                 itemBuilder: (context, index) {
                   return _buildOption(index);
@@ -188,8 +203,19 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
                 width: double.infinity,
                 child: MyButton(
                   onTap: _nextQuestion,
-                  buttonText: currentIndex == questions.length - 1 ? "Finish" : "Next",
+                  buttonText:
+                      currentIndex == questions.length - 1 ? "Finish" : "Next",
                 ),
+              ),
+              // Confirm button
+            if(selectedOption != null && !hasAnswered)
+              SizedBox(
+                width: double.infinity,
+                child: MyButton(
+                  onTap: () => {setState(() {
+                    hasAnswered = true;
+                  })},
+                buttonText: "Confirm")
               ),
             const SizedBox(height: 30),
           ],
@@ -203,17 +229,21 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     bool isSelected = selectedOption == index;
     Color bgColor;
     if (hasAnswered) {
-      bgColor = isCorrect
-          ? Colors.green.shade300
-          : isSelected
+      bgColor =
+          isCorrect
+              ? Colors.green.shade300
+              : isSelected
               ? Colors.red.shade300
               : Colors.grey.shade200;
+    } else if (selectedOption == index) {
+      bgColor = Colors.blue.shade300;
     } else {
       bgColor = Colors.grey.shade200;
     }
-    Color textColor = hasAnswered && (isCorrect || isSelected) ? Colors.white : Colors.black;
+    Color textColor =
+        hasAnswered && (isCorrect || isSelected) ? Colors.white : Colors.black;
     return InkWell(
-      onTap: hasAnswered ? null : () => _checkAnswer(index),
+      onTap: () => selectAnswer(index),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),

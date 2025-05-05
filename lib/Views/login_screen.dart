@@ -1,4 +1,5 @@
 /* lib/Views/login_screen.dart */
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/auth_service.dart';
 import 'package:flutter_study_app/Views/nav_bar_category.dart';
@@ -18,6 +19,8 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  TextEditingController resetPasswordController = TextEditingController();
 
   bool isLoading = false;
   bool isPasswordHidden = true;
@@ -47,6 +50,18 @@ class _LogInScreenState extends State<LogInScreen> {
       showSnackBar(context, "Login failed! $result");
     }
   }
+
+  void closeResetPasswordPopup(){
+    Navigator.pop(context);
+    resetPasswordController.text = "";
+  }
+
+  void sendResetPasswordEmail(){
+    if(resetPasswordController.text.isEmpty){
+      return;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +168,32 @@ class _LogInScreenState extends State<LogInScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 30),
+                  //Forgot Password
+                   Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Reset Password"),
+                          content: TextFormField(controller: resetPasswordController, 
+                          decoration: InputDecoration(hintText: "Enter Email"),
+                          validator: (value) {
+                            if(value == "" || value!.isEmpty) return "Please enter an email";
+                            if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$")
+                              .hasMatch(value.trim())) {
+                            return "Please enter a valid email";
+                      }
+                          },),
+                          actions: [
+                            TextButton(child: Text("Cancel"), onPressed: (){closeResetPasswordPopup();},),
+                            TextButton(child: Text("Confirm"), onPressed: () {},)
+                          ],
+                        ),
+                      ),
+                      child: Text("Forgot Password",style: TextStyle(color: Colors.blue.shade800),))
+                      ),
+                  const SizedBox(height: 10),
                   // Login button
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
