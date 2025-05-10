@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Service/progress_service.dart';
 import 'package:flutter_study_app/Service/shop_service.dart';
 import 'package:flutter_study_app/Widgets/coin_star_card.dart';
+import 'package:flutter_study_app/Widgets/extra_lives_widget.dart';
 import 'lesson_screen.dart';
 import 'course_quiz_screen.dart';
 
@@ -44,25 +45,10 @@ class CourseDetailScreen extends StatelessWidget {
           const UserStatusCard(),
           StreamBuilder<int>(
             stream: ShopService.extraLivesStream(),
-            builder: (context, livesSnap) {
-              final lives = livesSnap.data ?? 0;
-              return SizedBox(
-                width: 250,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Center(
-                      child: Text(
-                        'Extra Lives: $lives',
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              );
+            builder: (context, snap) {
+              final lives = snap.data ?? 0;
+              if (lives < 1) return const SizedBox.shrink();
+              return const ExtraLivesWidget();
             },
           ),
           Expanded(
