@@ -19,7 +19,6 @@ class ShopService {
   }
 
   static const List<String> categories = [
-    'Featured',
     'Themes',
     'Cosmetic',
     'Boosts',
@@ -52,15 +51,6 @@ class ShopService {
       imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
       category: 'Boosts',
       type: 'extra_life',
-    ),
-    ShopItem(
-      id: 'featured_bundle',
-      name: 'Starter Pack',
-      description: '5 lives + exclusive theme + frame.',
-      cost: 100,
-      imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
-      category: 'Featured',
-      type: 'bundle',
     ),
   ];
 
@@ -105,6 +95,7 @@ class ShopService {
       tx.update(userRef, {
         'coins': coins - item.cost,
         if (item.type == 'extra_life') 'extraLives': FieldValue.increment(1),
+        if (item.type == 'theme')         'theme':        item.id,
       });
       if (item.type != 'extra_life') {
         final invRef = userRef.collection('inventory').doc(item.id);

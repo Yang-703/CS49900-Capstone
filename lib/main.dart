@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_study_app/firebase_options.dart';
 import 'package:flutter_study_app/Views/login_screen.dart';
 import 'package:flutter_study_app/Views/nav_bar_category.dart';
-//import 'package:flutter_study_app/Data/existing_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,11 +4,12 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Views/inventory_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_study_app/Widgets/my_button.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:flutter_study_app/Service/streak_service.dart';
+import 'package:flutter_study_app/Service/shop_service.dart';
+import 'package:flutter_study_app/Views/inventory_screen.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -145,25 +146,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         GestureDetector(
                           onTap: pickImageFromGallery,
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              CircleAvatar(
-                                radius: 60,
-                                backgroundColor: Colors.blue[100],
-                                backgroundImage: profileImageBytes != null
+                          child: StreamBuilder<Set<String>>(
+                            stream: ShopService.inventoryStream(),
+                            builder: (context, invSnap) {
+                              final inv = invSnap.data ?? {};
+                              final hasFrame = inv.contains('frame_gold');
+                              return Container(
+                                padding: hasFrame ? const EdgeInsets.all(4) : EdgeInsets.zero,
+                                decoration: hasFrame
+                                  ? BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.amber, width: 4),
+                                    )
+                                  : null,
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: Colors.blue[100],
+                                  backgroundImage: profileImageBytes != null
                                     ? MemoryImage(profileImageBytes!)
-                                    : const NetworkImage(
-                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png')
-                                        as ImageProvider,
-                              ),
-                              const CircleAvatar(
-                                radius: 18,
-                                backgroundColor: Colors.black,
-                                child: Icon(Icons.camera_alt,
-                                    size: 20, color: Colors.white),
-                              ),
-                            ],
+                                    : const NetworkImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(height: 20),
