@@ -365,7 +365,6 @@ class _HomePageState extends State<HomePage> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Default
               ListTile(
                 leading: Image.asset('assets/mascot.png', width: 40, height: 40),
                 title: const Text('Default Mascot'),
@@ -374,12 +373,10 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pop(ctx);
                 },
               ),
-              // each owned pet
               ...owned
                 .where((id) => petAssets.containsKey(id))
                 .map((id) {
                   final asset = petAssets[id]!;
-                  // find name for UI
                   final item = ShopService.allItems.firstWhere((i) => i.id == id);
                   return ListTile(
                     leading: Image.asset(asset, width: 40, height: 40),
