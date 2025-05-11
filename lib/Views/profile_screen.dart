@@ -152,11 +152,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               final inv = invSnap.data ?? {};
                               final hasFrame = inv.contains('frame_gold');
                               return Container(
-                                padding: hasFrame ? const EdgeInsets.all(4) : EdgeInsets.zero,
+                                padding: hasFrame ? const EdgeInsets.all(0) : EdgeInsets.zero,
                                 decoration: hasFrame
                                   ? BoxDecoration(
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.amber, width: 4),
+                                      border: Border.all(color: Colors.amber, width: 5),
                                     )
                                   : null,
                                 child: CircleAvatar(
