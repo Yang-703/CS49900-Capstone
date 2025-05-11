@@ -19,21 +19,21 @@ class ShopService {
   }
 
   static const List<String> categories = [
-    'Themes',
+    'Pets',
     'Cosmetic',
     'Boosts',
   ];
 
   static final List<ShopItem> _allItems = [
     ShopItem(
-      id: 'theme_dark',
-      name: 'Premium Dark Mode',
-      description: 'Unlock sleek dark mode across the app.',
-      cost: 50,
-      imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
-      category: 'Themes',
-      type: 'theme',
-    ),
+    id: 'pet_puppy',
+    name: 'Puppy',
+    description: 'Adopt a playful puppy to keep you company!',
+    cost: 50,
+    imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
+    category: 'Pets',
+    type: 'pet',
+  ),
     ShopItem(
       id: 'frame_gold',
       name: 'Gold Avatar Frame',
@@ -108,5 +108,22 @@ class ShopService {
     if (_user == null) return;
     final userRef = _fs.collection('users').doc(_user!.uid);
     await userRef.update({'extraLives': FieldValue.increment(-1)});
+  }
+
+  static Future<void> selectPet(String? petId) async {
+    if (_user == null) return;
+    await _fs
+      .collection('users')
+      .doc(_user!.uid)
+      .set({'selectedPet': petId}, SetOptions(merge: true));
+  }
+
+  static Stream<String?> selectedPetStream() {
+    if (_user == null) return Stream.value(null);
+    return _fs
+      .collection('users')
+      .doc(_user!.uid)
+      .snapshots()
+      .map((snap) => snap.data()?['selectedPet'] as String?);
   }
 }

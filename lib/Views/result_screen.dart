@@ -80,6 +80,17 @@ class ResultScreen extends StatelessWidget {
               StreamBuilder<int>(
                 stream: ShopService.extraLivesStream(),
                 builder: (context, livesSnap) {
+                  final livesLeft = livesSnap.data ?? 0;
+                  return Text(
+                    'Extra lives: $livesLeft',
+                    style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              StreamBuilder<int>(
+                stream: ShopService.extraLivesStream(),
+                builder: (context, livesSnap) {
                   final lives = livesSnap.data ?? 0;
                   return FutureBuilder<QuizStatus>(
                     future: QuizService.getQuizStatus('${fieldName}_$courseName'),
@@ -89,8 +100,8 @@ class ResultScreen extends StatelessWidget {
                       if (st.firstCompleted && lives > 0 && !st.extraLifeActive) {
                         return Column(
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
+                            GestureDetector(
+                              onTap: () async {
                                 await ShopService.consumeExtraLife();
                                 await QuizService.activateExtraLife('${fieldName}_$courseName');
                                 Navigator.pushReplacement(
@@ -104,7 +115,39 @@ class ResultScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text('Use Extra Life'),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [Color(0xFFFF6B6B), Color(0xFFFF4757)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 255, 132, 143),
+                                      offset: Offset(0, 4),
+                                      blurRadius: 12,
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 36),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.favorite, color: Colors.white, size: 20),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Use Extra Life',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 20),
                           ],

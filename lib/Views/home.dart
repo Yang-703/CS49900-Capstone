@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_study_app/Service/shop_service.dart';
 import 'package:flutter_study_app/Widgets/snackbar.dart';
 import 'package:flutter_study_app/Service/my_courses_service.dart'; 
 import 'login_screen.dart';
@@ -17,6 +18,10 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
+const Map<String,String> petAssets = {
+  'pet_puppy': 'assets/mascot2.png',
+};
 
 class _HomePageState extends State<HomePage> {
   final User? user = FirebaseAuth.instance.currentUser;
@@ -172,11 +177,19 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 'Welcome, ${userData?['name'] ?? ''}!',
-                style:
-                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              Image.asset('assets/mascot.png',
-                  fit: BoxFit.cover, height: 180),
+              GestureDetector(
+                onTap: () => _showPetPickerDialog(context),
+                child: StreamBuilder<String?>(
+                  stream: ShopService.selectedPetStream(),
+                  builder: (ctx, snap) {
+                    final petId = snap.data;
+                    final asset = petAssets[petId] ?? 'assets/mascot.png';
+                    return Image.asset(asset, fit: BoxFit.cover, height: 180);
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -339,4 +352,50 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Future<void> _showPetPickerDialog(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Choose your pet'),
+      content: StreamBuilder<Set<String>>(
+        stream: ShopService.inventoryStream(),
+        builder: (context, invSnap) {
+          final owned = invSnap.data ?? <String>{};
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Default
+              ListTile(
+                leading: Image.asset('assets/mascot.png', width: 40, height: 40),
+                title: const Text('Default Mascot'),
+                onTap: () {
+                  ShopService.selectPet(null);
+                  Navigator.pop(ctx);
+                },
+              ),
+              // each owned pet
+              ...owned
+                .where((id) => petAssets.containsKey(id))
+                .map((id) {
+                  final asset = petAssets[id]!;
+                  // find name for UI
+                  final item = ShopService.allItems.firstWhere((i) => i.id == id);
+                  return ListTile(
+                    leading: Image.asset(asset, width: 40, height: 40),
+                    title: Text(item.name),
+                    onTap: () {
+                      ShopService.selectPet(id);
+                      Navigator.pop(ctx);
+                    },
+                  );
+                }),
+            ],
+          );
+        },
+      ),
+    ),
+  );
+}
+
 }

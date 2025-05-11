@@ -67,8 +67,8 @@ class ShopScreen extends StatelessWidget {
 
   IconData _iconForCategory(String category) {
     switch (category) {
-      case 'Themes':
-        return Icons.color_lens;
+      case 'Pets':
+        return Icons.pets;
       case 'Cosmetic':
         return Icons.brush;
       case 'Boosts':

@@ -218,31 +218,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: double.infinity,
                           child: Card(
                             margin: const EdgeInsets.symmetric(vertical: 8),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            elevation: 4,
+                            clipBehavior: Clip.antiAlias,
                             child: InkWell(
+                              borderRadius: BorderRadius.circular(16),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (_) => const InventoryScreen()),
                                 );
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.inventory, size: 32, color: Colors.blueAccent),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: const [
-                                          Text('Inventory', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                          SizedBox(height: 4),
-                                          Text('View the items you bought'),
-                                        ],
-                                      ),
+                              child: Container(
+                                height: 80,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [Color.fromARGB(255, 108, 175, 251), Color.fromARGB(255, 148, 197, 250)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                child: ListTile(
+                                  leading: const Icon(Icons.inventory, size: 32, color: Colors.white),
+                                  title: const Text(
+                                    'Inventory',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
-                                    const Icon(Icons.arrow_forward_ios, size: 16),
-                                  ],
+                                  ),
+                                  subtitle: const Text(
+                                    'View the items you bought',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white),
                                 ),
                               ),
                             ),
