@@ -67,7 +67,7 @@ class ShopScreen extends StatelessWidget {
 
   IconData _iconForCategory(String category) {
     switch (category) {
-      case 'Pets':
+      case 'Featured':
         return Icons.pets;
       case 'Cosmetic':
         return Icons.brush;
@@ -168,9 +168,9 @@ class _CategoryView extends StatelessWidget {
                             );
                           } catch (e) {
                             showSnackBar(
-                                context,
-                                e.toString().replaceAll(
-                                    'Exception: ', ''));
+                              context,
+                              e.toString().replaceAll(
+                                  'Exception: ', ''));
                           }
                         },
                       );

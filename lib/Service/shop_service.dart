@@ -19,21 +19,30 @@ class ShopService {
   }
 
   static const List<String> categories = [
-    'Pets',
+    'Featured',
     'Cosmetic',
     'Boosts',
   ];
 
   static final List<ShopItem> _allItems = [
     ShopItem(
-    id: 'pet_puppy',
-    name: 'Puppy',
-    description: 'Adopt a playful puppy to keep you company!',
-    cost: 50,
-    imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
-    category: 'Pets',
-    type: 'pet',
-  ),
+      id: 'pet_puppy',
+      name: 'Puppy',
+      description: 'Adopt a playful puppy to keep you company!',
+      cost: 50,
+      imageUrl: 'https://img.freepik.com/free-psd/cute-dog-isolated_23-2150424132.jpg?ga=GA1.1.560117784.1747062533&semt=ais_hybrid&w=740',
+      category: 'Featured',
+      type: 'pet',
+    ),
+    ShopItem(
+      id: 'pet_cat',
+      name: 'Cat',
+      description: 'Adopt a playful cat to keep you company!',
+      cost: 50,
+      imageUrl: 'https://img.freepik.com/free-psd/kawaii-cat-illustration_23-2151299390.jpg?ga=GA1.1.560117784.1747062533&semt=ais_hybrid&w=740',
+      category: 'Featured',
+      type: 'pet',
+    ),
     ShopItem(
       id: 'frame_gold',
       name: 'Gold Avatar Frame',

@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 const Map<String,String> petAssets = {
   'pet_puppy': 'assets/mascot2.png',
+  'pet_cat': 'assets/mascot3.png',
 };
 
 class _HomePageState extends State<HomePage> {
@@ -367,7 +368,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ListTile(
                   leading: Image.asset('assets/mascot.png', width: 40, height: 40),
-                  title: const Text('Default Mascot'),
+                  title: const Text('Default'),
                   onTap: () {
                     ShopService.selectPet(null);
                     Navigator.pop(ctx);
