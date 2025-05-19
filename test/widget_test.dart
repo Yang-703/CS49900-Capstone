@@ -1,78 +1,30 @@
-/* test/auth_service_test.dart */
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility in the flutter_test package. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
+
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:flutter_study_app/Service/auth_service.dart';
+
+import 'package:flutter_study_app/main.dart';
 
 void main() {
-  late MockFirebaseAuth mockAuth;
-  late FakeFirebaseFirestore mockFirestore;
-  late AuthService service;
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const StudyApp());
 
-  setUp(() {
-    mockAuth = MockFirebaseAuth();
-    mockFirestore = FakeFirebaseFirestore();
-    service = AuthService(auth: mockAuth, firestore: mockFirestore);
-  });
+    // Verify that our counter starts at 0.
+    expect(find.text('0'), findsOneWidget);
+    expect(find.text('1'), findsNothing);
 
-  group('signUpUser', () {
-    test('creates a new user and writes to Firestore', () async {
-      const email = 'test@example.com';
-      const password = 'password123';
-      const name = 'Test User';
+    // Tap the '+' icon and trigger a frame.
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
 
-      final res = await service.signUpUser(
-        email: email,
-        password: password,
-        name: name,
-        profileImage: null,
-      );
-
-      expect(res, 'User created successfully');
-
-      final user = mockAuth.currentUser!;
-      final doc = await mockFirestore
-          .collection('users')
-          .doc(user.uid)
-          .get();
-
-      expect(doc.exists, isTrue);
-      final data = doc.data()!;
-      expect(data['email'], email);
-      expect(data['name'], name);
-      expect(data['stars'], 0);
-      expect(data['coins'], 0);
-      expect(data['extraLives'], 0);
-    });
-
-    test('returns error when fields are empty', () async {
-      final res = await service.signUpUser(
-        email: '',
-        password: '',
-        name: '',
-        profileImage: null,
-      );
-      expect(res, 'Please fill all the fields');
-    });
-  });
-
-  group('logInUser', () {
-    test('logs in existing user', () async {
-      await mockAuth.createUserWithEmailAndPassword(
-          email: 'foo@bar.com', password: 'secret');
-      final res = await service.logInUser(
-        email: 'foo@bar.com',
-        password: 'secret',
-      );
-      expect(res, 'Login successful');
-    });
-
-    test('returns error when missing credentials', () async {
-      final res = await service.logInUser(
-        email: '',
-        password: '',
-      );
-      expect(res, 'Please fill all the fields');
-    });
+    // Verify that our counter has incremented.
+    expect(find.text('0'), findsNothing);
+    expect(find.text('1'), findsOneWidget);
   });
 }
