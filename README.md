@@ -64,8 +64,8 @@ dev_dependencies:
 
 ### 4.2 Clone & Install
 ```bash
-git clone https://github.com/.git
-cd StuddyBuddy
+git clone https://github.com/Yang-703/CS49900-.git
+cd StudyBuddy
 flutter pub get
 ```
 
