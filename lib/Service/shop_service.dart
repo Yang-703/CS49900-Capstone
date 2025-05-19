@@ -47,8 +47,8 @@ class ShopService {
       id: 'frame_gold',
       name: 'Gold Avatar Frame',
       description: 'Surround your avatar with gold flair.',
-      cost: 30,
-      imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
+      cost: 20,
+      imageUrl: 'https://img.freepik.com/free-vector/realistic-golden-frame_23-2149233571.jpg?ga=GA1.1.1590422758.1747678019&semt=ais_hybrid&w=740',
       category: 'Cosmetic',
       type: 'cosmetic',
     ),
@@ -56,13 +56,12 @@ class ShopService {
       id: 'boost_life',
       name: 'Extra Life',
       description: 'One free retry on any quiz.',
-      cost: 15,
-      imageUrl: 'https://img.freepik.com/free-vector/locker_53876-25496.jpg?ga=GA1.1.176898006.1745256845&semt=ais_hybrid&w=740',
+      cost: 5,
+      imageUrl: 'https://img.freepik.com/free-vector/heart_78370-492.jpg?ga=GA1.1.1590422758.1747678019&semt=ais_hybrid&w=740',
       category: 'Boosts',
       type: 'extra_life',
     ),
   ];
-
 
   static Stream<int> extraLivesStream() {
     if (_user == null) return Stream.value(0);

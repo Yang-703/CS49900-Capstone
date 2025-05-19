@@ -21,11 +21,11 @@ final data = {
         "lessons": {
           "lesson1": {
             "title": "1. Introduction to Algebra",
-            "content": "Overview of algebraic expressions, variables, and constants."
+            "content": "Algebra is the branch of mathematics that introduces you to the language of variables, expressions, and equations. In this lesson, you will learn what variables represent and how to translate real-world situations into algebraic expressions. We will explore constants, coefficients, and the rules for simplifying expressions through addition, subtraction, multiplication, and division. By the end, you will understand how algebraic notation allows us to model problems, manipulate symbols, and lay the groundwork for solving equations."
           },
           "lesson2": {
             "title": "2. Linear Equations",
-            "content": "Learn how to solve and graph linear equations."
+            "content": "Linear equations form the backbone of algebra, describing relationships that produce straight lines when graphed. This lesson covers techniques for isolating variables, solving one-step and multi-step equations, and verifying your solutions. You will learn how to rewrite equations into slope-intercept form (y = mx + b), identify slope and y-intercept, and graph equations on the coordinate plane. Practical examples include calculating total cost given a unit price and determining time versus speed relationships. By practicing a variety of problems, you will build confidence in modeling and solving linear scenarios."
           },
         },
         "quiz": {
@@ -66,11 +66,11 @@ final data = {
         "lessons": {
           "lesson1": {
             "title": "1. Advanced Algebra Introduction",
-            "content": "Explore higher-level algebraic concepts and problem-solving techniques."
+            "content": "Building on Algebra 1 concepts, advanced algebra dives deeper into polynomial functions, rational expressions, and complex numbers. In this lesson, we will review factoring techniques and polynomial division, explore function notation and transformations, and introduce the concept of domain and range. You will learn to perform operations on expressions with rational exponents, simplify complex fractions, and understand how to analyze the behavior of higher-degree polynomials. Real-world applications such as calculating interest growth and modeling projectile motion will demonstrate these ideas."
           },
           "lesson2": {
             "title": "2. Quadratic Equations",
-            "content": "Learn to solve quadratic equations using various methods."
+            "content": "Quadratic equations are essential for modeling parabolic relationships in fields like physics, engineering, and finance. This lesson covers three methods for solving quadratics: factoring, completing the square, and applying the quadratic formula. You will learn to work with the standard form ax^2 + bx + c = 0, compute the discriminant to determine the nature of the roots, and rewrite equations in vertex form to identify the parabola’s vertex and axis of symmetry. Graphing quadratics will reveal how the coefficients affect the parabola’s shape and position. By the end, you will be able to solve, analyze, and graph any quadratic equation with confidence."
           },
         },
         "quiz": {

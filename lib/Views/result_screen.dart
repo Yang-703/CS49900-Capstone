@@ -43,13 +43,13 @@ class ResultScreen extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
+              const UserStatusCard(),
               Lottie.network(
                 "https://lottie.host/d7cc3291-7650-4c26-b9e0-4b8d0569a7ec/Epsc2qNzTb.json",
                 height: 200,
                 width: 300,
                 fit: BoxFit.cover,
               ),
-              const SizedBox(height: 50),
               const Text(
                 "Quiz Completed!",
                 style: TextStyle(
@@ -75,8 +75,6 @@ class ResultScreen extends StatelessWidget {
                 "You answered ${(stars / totalQuestions * 100).toStringAsFixed(2)}% of questions correctly",
                 style: const TextStyle(fontSize: 21),
               ),
-              const UserStatusCard(),
-              const SizedBox(height: 10),
               StreamBuilder<int>(
                 stream: ShopService.extraLivesStream(),
                 builder: (context, livesSnap) {
@@ -166,12 +164,12 @@ class ResultScreen extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const NavBarCategorySelection(initialIndex: 0),
+                            builder: (context) => const NavBarCategorySelection(initialIndex: 3),
                           ),
                           (route) => false,
                         );
                       },
-                      buttonText: "Homepage",
+                      buttonText: "Shop",
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -190,6 +188,29 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 10),
+              Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: MyButton(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NavBarCategorySelection(initialIndex: 0),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      buttonText: "Homepage",
+                    ),
+                  ),
+                ],
+              ),
               ),
             ],
           ),

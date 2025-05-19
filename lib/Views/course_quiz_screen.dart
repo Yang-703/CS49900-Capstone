@@ -57,11 +57,11 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     });
   }
 
-  void _checkAnswer(int index) {
+  void _checkAnswer() {
+    if (selectedOption == null) return;
     setState(() {
       hasAnswered = true;
-      selectedOption = index;
-      if (questions[currentIndex]['correctOptionKey'] == index + 1) {
+      if (questions[currentIndex]['correctOptionKey'] == selectedOption! + 1) {
         stars++;
       }
     });
@@ -203,6 +203,14 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
                 },
               ),
             ),
+            if (!hasAnswered && selectedOption != null)
+              SizedBox(
+                width: double.infinity,
+                child: MyButton(
+                  onTap: _checkAnswer,
+                  buttonText: "Confirm",
+                ),
+              ),
             if (hasAnswered)
               SizedBox(
                 width: double.infinity,
@@ -219,21 +227,33 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
   }
 
   Widget _buildOption(int index) {
-    bool isCorrect = questions[currentIndex]['correctOptionKey'] == index + 1;
-    bool isSelected = selectedOption == index;
+    final optionText = questions[currentIndex]['options'][index] as String;
+    final correctKey = questions[currentIndex]['correctOptionKey'] as int;
+    final isCorrect = (correctKey == index + 1);
+    final isSelected = (selectedOption == index);
     Color bgColor;
-    if (hasAnswered) {
-      bgColor = isCorrect
-          ? Colors.green.shade300
-          : isSelected
-              ? Colors.red.shade300
-              : Colors.grey.shade200;
+    Color textColor;
+    if (!hasAnswered) {
+      bgColor = isSelected
+          ? Colors.lightBlue.shade200
+          : Colors.grey.shade200;
+      textColor = Colors.black;
     } else {
-      bgColor = Colors.grey.shade200;
+      if (isCorrect) {
+        bgColor = Colors.green.shade300;
+        textColor = Colors.white;
+      } else if (isSelected) {
+        bgColor = Colors.red.shade300;
+        textColor = Colors.white;
+      } else {
+        bgColor = Colors.grey.shade200;
+        textColor = Colors.black;
+      }
     }
-    Color textColor = hasAnswered && (isCorrect || isSelected) ? Colors.white : Colors.black;
     return InkWell(
-      onTap: hasAnswered ? null : () => _checkAnswer(index),
+      onTap: hasAnswered ? null : () => setState(() {
+        selectedOption = index;
+      }),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
@@ -249,7 +269,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
           ],
         ),
         child: Text(
-          questions[currentIndex]['options'][index],
+          optionText,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, color: textColor),
         ),
