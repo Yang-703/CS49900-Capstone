@@ -1,11 +1,10 @@
-# StuddyBuddy 📚✨
+# StudyBuddy 📚✨
 
-A **gamified learning platform** built with Flutter and Firebase.  
-StuddyBuddy turns studying into an engaging adventure: unlock lessons, earn stars and coins, adopt virtual pets, compete on the global leaderboard, and keep your daily study streak alive!
+A **gamified learning platform** built with Flutter and Firebase. StuddyBuddy turns studying into an engaging adventure: unlock lessons, earn stars and coins, adopt virtual pets, compete on the global leaderboard, and keep your daily study streak alive!
 
 ## 1. System Description
 
-StuddyBuddy is a mobile app that helps learners stay motivated through:
+StudyBuddy is a mobile app that helps learners stay motivated through:
 
 | Module | Description |
 | -------| -----------|
@@ -22,15 +21,16 @@ All data (users, progress, shop inventory, quiz attempts) lives in **Firebase** 
 | Category | Package | Purpose |
 |----------|-----------------|---------|
 | **Framework** | 3.29.2 | Cross-platform UI |
-| **Backend-as-a-Service** | Firebase Core, Auth, Cloud Firestore | Authentication, data, images |
+| **Backend** | Firebase Core, Auth, Cloud Firestore | Authentication, data, images |
 | **UI Widgets** | `cupertino_icons`, `auto_size_text`, `flutter_carousel_widget`, `lottie` | Polished UI/animation |
-| **Device & Storage** | `image_picker`, `path_provider`, `shared_preferences` | Gallery access & local caching |
+| **Storage** | `image_picker`, `path_provider`, `shared_preferences` | Gallery access & local caching |
 | **Validation** | `email_validator` | Form validation |
-| **Testing (dev)** | `firebase_auth_mocks`, `fake_cloud_firestore`, `flutter_test` | Unit / widget tests |
+| **Testing** | `firebase_auth_mocks`, `fake_cloud_firestore`, `flutter_test` | Unit / widget tests |
 
 ## 3. Full Dependency List
 
 ### Dependencies in pubspec.yaml
+```yaml
 dependencies:
   flutter:
     sdk: flutter
@@ -52,6 +52,7 @@ dev_dependencies:
     sdk: flutter
   firebase_auth_mocks: ^0.14.1
   fake_cloud_firestore: ^3.1.0
+```
 
 ## 4. Installation & Running
 
@@ -62,9 +63,11 @@ dev_dependencies:
 * A Firebase project (Free Spark plan is sufficient)
 
 ### 4.2 Clone & Install
-git clone https://github.com/Yang-703/CS49900-.git
+```bash
+git clone https://github.com/.git
 cd StuddyBuddy
 flutter pub get
+```
 
 ### 4.3 Configure Firebase
 
@@ -80,11 +83,12 @@ flutter pub get
     - `users`
     - `questions`
 
-**Important:** The default `DefaultFirebaseOptions.currentPlatform` in `lib/main.dart` expects the generated `firebase_options.dart`.  
-Run `flutterfire configure` or `dart run build_runner build` as described in the FlutterFire CLI documentation.
+**Important:** The default `DefaultFirebaseOptions.currentPlatform` in `lib/main.dart` expects the generated `firebase_options.dart`. Run `flutterfire configure` or `dart run build_runner build` as described in the FlutterFire CLI documentation.
 
 ### 4.4 Run and test the App
 
 #### For Android/iOS Emulator or Connected Device
+```bash
 flutter run
 flutter test
+```
