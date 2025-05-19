@@ -85,10 +85,9 @@ flutter pub get
 
 **Important:** The default `DefaultFirebaseOptions.currentPlatform` in `lib/main.dart` expects the generated `firebase_options.dart`. Run `flutterfire configure` or `dart run build_runner build` as described in the FlutterFire CLI documentation.
 
-### 4.4 Run and test the App
+### 4.4 Run the App
 
 #### For Android/iOS Emulator or Connected Device
 ```bash
 flutter run
-flutter test
 ```
