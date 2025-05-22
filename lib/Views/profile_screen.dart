@@ -185,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF638FDB), // matching end gradient color for consistency
+                              color: Color(0xFF638FDB),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -272,8 +272,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               buttonText: 'Sign Out',
                             ),
                           ),
-
-                          // User Report Card added here
                           _userReport(),
                         ],
                       ),
@@ -322,64 +320,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF06FBD8), Color(0xFF44D3AE)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+          gradient: const LinearGradient(
+            colors: [Color.fromARGB(255, 101, 225, 247), Color.fromARGB(255, 220, 139, 234)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
-      ),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "${users?['name'] ?? 'User'}'s Report",
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 12),
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _statCard('Time Spent', timeSpent, Icons.access_time),
-                const VerticalDivider(color: Colors.white, thickness: 1, width: 20),
-                _statCard('Exercises Done', '$exercisesDone', Icons.book),
-                const VerticalDivider(color: Colors.white, thickness: 1, width: 20),
-                _statCard('Highest Streak', '$highestStreakFromUserData', Icons.whatshot),
-              ],
-            ),
+
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 350) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _statCard('Time Spent', timeSpent, Icons.access_time),
+                    const Divider(color: Colors.white),
+                    _statCard('Exercises Done', '$exercisesDone', Icons.book),
+                    const Divider(color: Colors.white),
+                    _statCard('Highest Streak', '$highestStreakFromUserData', Icons.emoji_events),
+                  ],
+                );
+              }
+
+              return IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(child: _statCard('Time Spent', timeSpent, Icons.access_time)),
+                    const VerticalDivider(color: Colors.white, thickness: 1),
+                    Expanded(child: _statCard('Exercises Done', '$exercisesDone', Icons.book)),
+                    const VerticalDivider(color: Colors.white, thickness: 1),
+                    Expanded(child: _statCard('Highest Streak', '$highestStreakFromUserData', Icons.whatshot)),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
     );
+
   }
 
   Widget _statCard(String title, String value, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(icon, size: 30, color: Colors.white),
-          const SizedBox(height: 6),
-          Text(title, style: const TextStyle(fontSize: 14, color: Colors.white)),
-          const SizedBox(height: 4),
+          const SizedBox(width: 10),
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+                '$title:',
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 130, 255, 88)),
+            ),
+          ),
+          const SizedBox(width: 6),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

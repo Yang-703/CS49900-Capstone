@@ -107,11 +107,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFDDE7FD), // Update background color here
+      backgroundColor: const Color(0xFFDDE7FD),
       appBar: AppBar(
         title: const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: Colors.transparent, // Make the AppBar background transparent
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Builder(
           builder: (ctx) => IconButton(
@@ -126,8 +126,8 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF7CB0FC), // Start color 0xFF7CB0FC
-                const Color(0xFF638FDB), // End color
+                const Color(0xFF7CB0FC),
+                const Color(0xFF638FDB),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -199,32 +199,34 @@ class _HomePageState extends State<HomePage> {
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         gradient: LinearGradient(
           colors: [
-            Color(0xFFF98293), // Start color
-            Color(0xFFF34C69), // End color
+            Color(0xFFF98293),
+            Color(0xFFF34C69),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
-      margin: const EdgeInsets.only(left: 85, right: 45, top: 25),
+      margin: const EdgeInsets.only(left: 85, right: 20, top: 25),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Image (overlapping)
           Positioned(
             left: -65,
             top: 10,
             child: GestureDetector(
-              onTap: () => _showPetPickerDialog(context),
-              child: Image.asset(
-                'assets/mascot1.png',
-                height: MediaQuery.of(context).size.height / 4.5,
+                onTap: () => _showPetPickerDialog(context),
+                child: StreamBuilder<String?>(
+                  stream: ShopService.selectedPetStream(),
+                  builder: (ctx, snap) {
+                    final petId = snap.data;
+                    final asset = petAssets[petId] ?? 'assets/mascot1.png';
+                    return Image.asset(asset, fit: BoxFit.cover, height: 180);
+                  },
+                ),
               ),
-            ),
           ),
-          // Text and Button
           Padding(
-            padding: const EdgeInsets.only(left: 170, top: 20, right: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 130, top: 20, right: 20, bottom: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -232,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                   'Daily Quiz',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 32,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -277,14 +279,17 @@ class _HomePageState extends State<HomePage> {
     final timeSpent = formatTimeSpent(secondsSpent);
 
     final int exercisesDone = userData?['exercisesDone'] ?? 0;
-    final int highestStreak = userData?['highestStreak'] ?? 0; // <-- updated here
+    final int highestStreakValue = userData?['highestStreak'] ?? 0;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 25),
+      margin: const EdgeInsets.symmetric(horizontal: 25).copyWith(top: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF06FBD8), Color(0xFF44D3AE)],
+          colors: [
+            Color.fromARGB(255, 101, 225, 247),
+            Color.fromARGB(255, 220, 139, 234),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -304,35 +309,39 @@ class _HomePageState extends State<HomePage> {
           Text(
             "${userData?['name'] ?? 'User'}'s Report",
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 12),
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _statCard('Time Spent', timeSpent, Icons.access_time),
-                const VerticalDivider(
-                  color: Colors.white,
-                  thickness: 1,
-                  width: 20,
-                  indent: 10,
-                  endIndent: 10,
+
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 350) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _statCard('Time Spent', timeSpent, Icons.access_time),
+                    const Divider(color: Colors.white),
+                    _statCard('Exercises Done', '$exercisesDone', Icons.book),
+                    const Divider(color: Colors.white),
+                    _statCard('Highest Streak', '$highestStreakValue', Icons.emoji_events),
+                  ],
+                );
+              }
+              return IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(child: _statCard('Time Spent:', timeSpent, Icons.access_time)),
+                    const VerticalDivider(color: Colors.white, thickness: 1),
+                    Expanded(child: _statCard('Exercises Done:', '$exercisesDone', Icons.book)),
+                    const VerticalDivider(color: Colors.white, thickness: 1),
+                    Expanded(child: _statCard('Highest Streak:', '$highestStreakValue', Icons.emoji_events)),
+                  ],
                 ),
-                _statCard('Exercises Done', '$exercisesDone', Icons.book),
-                const VerticalDivider(
-                  color: Colors.white,
-                  thickness: 1,
-                  width: 20,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-                _statCard('Highest Streak', '$highestStreak', Icons.whatshot), // <-- changed label + icon
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -342,29 +351,32 @@ class _HomePageState extends State<HomePage> {
   Widget _statCard(String title, String value, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 30,
-            color: Colors.white,
+          Icon(icon, size: 30, color: Colors.white),
+          const SizedBox(width: 10),
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+              '$title:',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 130, 255, 88),
+              ),
+            ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 14, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 4),
+          const SizedBox(width: 6),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),
