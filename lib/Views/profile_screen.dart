@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF638FDB), // matching end gradient color for consistency
+                              color: Color(0xFF638FDB),
                             ),
                           ),
                           const SizedBox(height: 10),
