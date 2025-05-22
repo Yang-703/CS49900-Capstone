@@ -13,10 +13,10 @@ import 'package:flutter_study_app/Views/inventory_screen.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key}); 
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState(); 
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -185,38 +185,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF638FDB),
+                              color: Color(0xFF638FDB), // matching end gradient color for consistency
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _statChip(
-                                  icon: Icons.star,
-                                  color: Colors.yellowAccent,
-                                  label: 'Stars',
-                                  value: users?['stars'] ?? 0,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _statChip(
-                                  icon: Icons.monetization_on,
-                                  color: Colors.greenAccent,
-                                  label: 'Coins',
-                                  value: users?['coins'] ?? 0,
-                                ),
-                              ),
-                            ],
+                          _statChip(
+                            icon: Icons.star,
+                            label: 'Stars',
+                            value: users?['stars'] ?? 0,
+                            gradientColors: [Color.fromARGB(255, 235, 215, 129), Color(0xFFFBC02D)],  // golden yellow gradient
+                          ),
+                          const SizedBox(height: 10),
+                          _statChip(
+                            icon: Icons.monetization_on,
+                            label: 'Coins',
+                            value: users?['coins'] ?? 0,
+                            gradientColors: [Color.fromARGB(255, 129, 223, 134), Color.fromARGB(255, 88, 170, 92)],  // green gradient
                           ),
                           const SizedBox(height: 10),
                           _statChip(
                             icon: Icons.local_fire_department,
-                            color: Colors.orangeAccent,
                             label: 'Current Streak',
                             value: currentStreak,
                             suffix: currentStreak == 1 ? ' day' : ' days',
+                            gradientColors: [Color(0xFFFF8A65), Color(0xFFF4511E)],  // orange gradient
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
@@ -238,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 80,
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Color.fromARGB(255, 108, 175, 251), Color.fromARGB(255, 148, 197, 250)],
+                                      colors: [Color.fromARGB(255, 129, 164, 212), Color.fromARGB(255, 58, 127, 196)], // deeper blue tones
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -285,24 +277,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required IconData icon,
     required String label,
     required int value,
-    Color? color,
     String suffix = '',
+    required List<Color> gradientColors, 
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.black54,
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: color ?? Colors.white, size: 24),
+          Icon(icon, color: Colors.white, size: 24),
           const SizedBox(width: 8),
           Text(
             '$label: $value$suffix',
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: color ?? Colors.white),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
