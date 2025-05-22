@@ -9,23 +9,30 @@ class QuizStatus {
 }
 
 class QuizService {
-  static final _firestore = FirebaseFirestore.instance;
-  static final _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
-  static DocumentReference<Map<String, dynamic>> _docRef(String quizId) {
+  QuizService({
+    FirebaseAuth? auth,
+    FirebaseFirestore? firestore,
+  })  : _auth = auth ?? FirebaseAuth.instance,
+        _firestore = firestore ?? FirebaseFirestore.instance;
+
+
+  DocumentReference<Map<String, dynamic>> _docRef(String quizId) {
     final uid = _auth.currentUser!.uid;
     return _firestore
       .collection('users')
       .doc(uid)
       .collection('quizAttempts')
       .doc(quizId)
-      .withConverter(
+      .withConverter<Map<String, dynamic>>(
         fromFirestore: (snap, _) => snap.data() ?? {},
         toFirestore: (map, _) => map,
       );
   }
 
-  static Future<QuizStatus> getQuizStatus(String quizId) async {
+  Future<QuizStatus> getQuizStatus(String quizId) async {
     final snap = await _docRef(quizId).get();
     if (!snap.exists) return const QuizStatus(firstCompleted: false, extraLifeActive: false);
     final data = snap.data();
@@ -35,15 +42,15 @@ class QuizService {
     );
   }
 
-  static Future<void> markFirstCompleted(String quizId) {
+  Future<void> markFirstCompleted(String quizId) {
     return _docRef(quizId).set({'firstCompleted': true}, SetOptions(merge: true));
   }
 
-  static Future<void> activateExtraLife(String quizId) {
+  Future<void> activateExtraLife(String quizId) {
     return _docRef(quizId).set({'extraLifeActive': true}, SetOptions(merge: true));
   }
 
-  static Future<void> consumeExtraLife(String quizId) {
+  Future<void> consumeExtraLife(String quizId) {
     return _docRef(quizId).update({'extraLifeActive': false});
   }
 }

@@ -30,6 +30,8 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int coinsEarned = stars * _coinRate;
+    final QuizService quizService = QuizService();
+    final ShopService shopService = ShopService(); 
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -76,7 +78,7 @@ class ResultScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 21),
               ),
               StreamBuilder<int>(
-                stream: ShopService.extraLivesStream(),
+                stream: shopService.extraLivesStream(),
                 builder: (context, livesSnap) {
                   final livesLeft = livesSnap.data ?? 0;
                   return Text(
@@ -87,11 +89,11 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               StreamBuilder<int>(
-                stream: ShopService.extraLivesStream(),
+                stream: shopService.extraLivesStream(),
                 builder: (context, livesSnap) {
                   final lives = livesSnap.data ?? 0;
                   return FutureBuilder<QuizStatus>(
-                    future: QuizService.getQuizStatus('${fieldName}_$courseName'),
+                    future: quizService.getQuizStatus('${fieldName}_$courseName'),
                     builder: (context, statSnap) {
                       if (!statSnap.hasData) return const SizedBox();
                       final st = statSnap.data!;
@@ -100,8 +102,8 @@ class ResultScreen extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                await ShopService.consumeExtraLife();
-                                await QuizService.activateExtraLife('${fieldName}_$courseName');
+                                await shopService.consumeExtraLife();
+                                await quizService.activateExtraLife('${fieldName}_$courseName');
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

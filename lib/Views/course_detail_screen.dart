@@ -21,6 +21,8 @@ class CourseDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProgressService progressService = ProgressService();
+    final ShopService shopService = ShopService();
     final lessonsMap = courseData['lessons'] as Map<String, dynamic>? ?? {};
     final lessons = lessonsMap.entries.map((e) {
       final lesson = e.value as Map<String, dynamic>;
@@ -44,7 +46,7 @@ class CourseDetailScreen extends StatelessWidget {
         children: [
           const UserStatusCard(),
           StreamBuilder<int>(
-            stream: ShopService.extraLivesStream(),
+            stream: shopService.extraLivesStream(),
             builder: (context, snap) {
               final lives = snap.data ?? 0;
               if (lives < 1) return const SizedBox.shrink();
@@ -55,7 +57,7 @@ class CourseDetailScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: StreamBuilder<Set<String>>(
-                stream: ProgressService.lessonCompletionStream(fieldName, courseName),
+                stream: progressService.lessonCompletionStream(fieldName, courseName),
                 builder: (context, lessonSnap) {
                   final doneLessons = lessonSnap.data ?? <String>{};
                   final lessonIds = lessons.map((e) => e['id'] as String).toSet();
@@ -63,7 +65,7 @@ class CourseDetailScreen extends StatelessWidget {
                   final totalLessons = lessons.length;
 
                   return StreamBuilder<bool>(
-                    stream: ProgressService.quizCompletionStream(fieldName, courseName),
+                    stream: progressService.quizCompletionStream(fieldName, courseName),
                     builder: (context, quizSnap) {
                       final quizDone = quizSnap.data == true ? 1 : 0;
                       final totalItems = totalLessons + 1;

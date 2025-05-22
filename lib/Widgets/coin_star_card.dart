@@ -9,6 +9,7 @@ class UserStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShopService shopService = ShopService();
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       return const SizedBox.shrink();
@@ -36,7 +37,7 @@ class UserStatusCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           StreamBuilder<int>(
-            stream: ShopService.coinStream(),
+            stream: shopService.coinStream(),
             builder: (context, snapshot) {
               final coins = snapshot.data ?? 0;
               return Row(

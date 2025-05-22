@@ -8,6 +8,7 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShopService shopService = ShopService();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inventory'),
@@ -21,12 +22,12 @@ class InventoryScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Expanded(
               child: StreamBuilder<Set<String>>(
-                stream: ShopService.inventoryStream(),
+                stream: shopService.inventoryStream(),
                 builder: (context, invSnap) {
                   final ids = invSnap.data ?? <String>{};
                   if (ids.isEmpty) {
                     return StreamBuilder<int>(
-                      stream: ShopService.extraLivesStream(),
+                      stream: shopService.extraLivesStream(),
                       builder: (context, livesSnap) {
                         final lives = livesSnap.data ?? 0;
                         if (lives == 0) {
@@ -38,7 +39,7 @@ class InventoryScreen extends StatelessWidget {
                       },
                     );
                   }
-                  final items = ShopService.allItems
+                  final items = shopService.allItems
                       .where((item) => ids.contains(item.id))
                       .toList();
                   return ListView.builder(

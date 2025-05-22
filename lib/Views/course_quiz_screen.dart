@@ -24,6 +24,8 @@ class CourseQuizScreen extends StatefulWidget {
 }
 
 class _CourseQuizScreenState extends State<CourseQuizScreen> {
+  final QuizService _quizService = QuizService();
+  final ProgressService _progressService = ProgressService();
   static const int _coinRate = 5;
 
   List<Map<String, dynamic>> questions = [];
@@ -117,7 +119,7 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
 
   Future<void> _handleFinish() async {
   final quizId = '${widget.fieldName}_${widget.courseName}';
-  final status = await QuizService.getQuizStatus(quizId);
+  final status = await _quizService.getQuizStatus(quizId);
   final canReward = !status.firstCompleted || status.extraLifeActive;
   final bool didReward = canReward && stars > 0;
 
@@ -126,14 +128,14 @@ class _CourseQuizScreenState extends State<CourseQuizScreen> {
     await _updateUserCoins();
 
     if (!status.firstCompleted) {
-      await QuizService.markFirstCompleted(quizId);
+      await _quizService.markFirstCompleted(quizId);
       
-      await ProgressService.markQuizComplete(
+      await _progressService.markQuizComplete(
         widget.fieldName,
         widget.courseName,
       );
     } else {
-      await QuizService.consumeExtraLife(quizId);
+      await _quizService.consumeExtraLife(quizId);
     }
   }
     

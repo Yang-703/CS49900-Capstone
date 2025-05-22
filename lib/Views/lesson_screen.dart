@@ -23,10 +23,11 @@ class LessonScreen extends StatefulWidget {
 }
 
 class _LessonScreenState extends State<LessonScreen> {
+  final ProgressService _progressService = ProgressService();
   @override
   void initState() {
     super.initState();
-    ProgressService.markLessonComplete(
+    _progressService.markLessonComplete(
       widget.fieldName,
       widget.courseName,
       widget.lessonId,

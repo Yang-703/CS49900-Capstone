@@ -11,6 +11,7 @@ class ShopScreen extends StatelessWidget {
 
   @override
 Widget build(BuildContext context) {
+  final ShopService shopService = ShopService();
   return DefaultTabController(
     length: ShopService.categories.length,
     child: Scaffold(
@@ -44,7 +45,7 @@ Widget build(BuildContext context) {
         body: Column(
           children: [
             StreamBuilder<int>(
-              stream: ShopService.coinStream(),
+              stream: shopService.coinStream(),
               builder: (context, coinSnap) {
                 if (coinSnap.connectionState == ConnectionState.waiting) {
                   return const Padding(
@@ -100,8 +101,9 @@ class _CategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShopService shopService = ShopService();
     return StreamBuilder<List<ShopItem>>(
-      stream: ShopService.itemsStream(category),
+      stream: shopService.itemsStream(category),
       builder: (context, itemSnap) {
         if (itemSnap.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -117,7 +119,7 @@ class _CategoryView extends StatelessWidget {
         }
 
         return StreamBuilder<Set<String>>(
-          stream: ShopService.inventoryStream(),
+          stream: shopService.inventoryStream(),
           builder: (context, invSnap) {
             if (invSnap.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -125,7 +127,7 @@ class _CategoryView extends StatelessWidget {
             final owned = invSnap.data ?? {};
 
             return StreamBuilder<int>(
-              stream: ShopService.coinStream(),
+              stream: shopService.coinStream(),
               builder: (context, coinSnap) {
                 if (coinSnap.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -150,7 +152,7 @@ class _CategoryView extends StatelessWidget {
                         userCoins: coins,
                         onPurchase: () async {
                           try {
-                            await ShopService.purchaseItem(it);
+                            await shopService.purchaseItem(it);
                             showDialog(
                               context: context,
                               builder: (dialogContext) => Dialog(

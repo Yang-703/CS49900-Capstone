@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   Uint8List? profileImageBytes;
   bool isLoading = true;
   int highestStreak = 0;
+  final ShopService _shopService = ShopService();
+  final MyCoursesService _myCoursesService = MyCoursesService();
 
   String formatTimeSpent(int seconds) {
       if (seconds < 3600) {
@@ -56,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final snap =
           await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+      if (!mounted) return;
       if (snap.exists) {
         setState(() {
           userData = snap.data();
@@ -69,6 +72,7 @@ class _HomePageState extends State<HomePage> {
         showSnackBar(context, 'No user data found.');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => isLoading = false);
       showSnackBar(context, 'Failed to fetch user data: $e');
     }
@@ -144,7 +148,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBody() {
     return StreamBuilder<List<CourseProgress>>(
-      stream: MyCoursesService.myCoursesStream(),
+      stream: _myCoursesService.myCoursesStream(),
       builder: (context, snapshot) {
         final courses = snapshot.data ?? [];
         final inProgress = courses.where((c) =>
@@ -216,7 +220,7 @@ class _HomePageState extends State<HomePage> {
             child: GestureDetector(
                 onTap: () => _showPetPickerDialog(context),
                 child: StreamBuilder<String?>(
-                  stream: ShopService.selectedPetStream(),
+                  stream: _shopService.selectedPetStream(),
                   builder: (ctx, snap) {
                     final petId = snap.data;
                     final asset = petAssets[petId] ?? 'assets/mascot1.png';
@@ -545,7 +549,7 @@ class _HomePageState extends State<HomePage> {
       builder: (ctx) => AlertDialog(
         title: const Text('Choose your pet'),
         content: StreamBuilder<Set<String>>(
-          stream: ShopService.inventoryStream(),
+          stream: _shopService.inventoryStream(),
           builder: (context, invSnap) {
             final owned = invSnap.data ?? <String>{};
             return Column(
@@ -555,7 +559,7 @@ class _HomePageState extends State<HomePage> {
                   leading: Image.asset('assets/mascot1.png', width: 40, height: 40),
                   title: const Text('Default'),
                   onTap: () {
-                    ShopService.selectPet(null);
+                    _shopService.selectPet(null);
                     Navigator.pop(ctx);
                   },
                 ),
@@ -563,12 +567,12 @@ class _HomePageState extends State<HomePage> {
                   .where((id) => petAssets.containsKey(id))
                   .map((id) {
                     final asset = petAssets[id]!;
-                    final item = ShopService.allItems.firstWhere((i) => i.id == id);
+                    final item = _shopService.allItems.firstWhere((i) => i.id == id);
                     return ListTile(
                       leading: Image.asset(asset, width: 40, height: 40),
                       title: Text(item.name),
                       onTap: () {
-                        ShopService.selectPet(id);
+                        _shopService.selectPet(id);
                         Navigator.pop(ctx);
                       },
                     );

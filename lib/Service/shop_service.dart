@@ -4,12 +4,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_study_app/Models/shop_item.dart';
 
 class ShopService {
-  static final _fs = FirebaseFirestore.instance;
-  static final _auth = FirebaseAuth.instance;
-  static User? get _user => _auth.currentUser;
-  static List<ShopItem> get allItems => _allItems;
+  final FirebaseFirestore _fs;
+  final FirebaseAuth _auth;
+  
+  ShopService({
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+  })  : _fs = firestore ?? FirebaseFirestore.instance,
+        _auth = auth ?? FirebaseAuth.instance;
+  User? get _user => _auth.currentUser;
 
-  static Stream<int> coinStream() {
+  static const List<String> categories = [
+    'Featured',
+    'Cosmetic',
+    'Boosts',
+  ];
+
+  List<ShopItem> get allItems => _allItems;
+
+  Stream<int> coinStream() {
     if (_user == null) return Stream.value(0);
     return _fs
         .collection('users')
@@ -17,12 +30,6 @@ class ShopService {
         .snapshots()
         .map((snap) => snap.data()?['coins'] ?? 0);
   }
-
-  static const List<String> categories = [
-    'Featured',
-    'Cosmetic',
-    'Boosts',
-  ];
 
   static final List<ShopItem> _allItems = [
     ShopItem(
@@ -47,7 +54,7 @@ class ShopService {
       id: 'frame_gold',
       name: 'Gold Avatar Frame',
       description: 'Surround your avatar with gold flair.',
-      cost: 15,
+      cost: 20,
       imageUrl: 'https://img.freepik.com/free-vector/realistic-golden-frame_23-2149233571.jpg?ga=GA1.1.1590422758.1747678019&semt=ais_hybrid&w=740',
       category: 'Cosmetic',
       type: 'cosmetic',
@@ -63,7 +70,8 @@ class ShopService {
     ),
   ];
 
-  static Stream<int> extraLivesStream() {
+
+  Stream<int> extraLivesStream() {
     if (_user == null) return Stream.value(0);
     return _fs
       .collection('users')
@@ -72,7 +80,7 @@ class ShopService {
       .map((snap) => snap.data()?['extraLives'] ?? 0);
   }
 
-  static Stream<List<ShopItem>> itemsStream(String category) {
+  Stream<List<ShopItem>> itemsStream(String category) {
     final filtered = _allItems
         .where((it) => category == 'Featured'
             ? it.category == 'Featured'
@@ -81,7 +89,7 @@ class ShopService {
     return Stream.value(filtered);
   }
 
-  static Stream<Set<String>> inventoryStream() {
+  Stream<Set<String>> inventoryStream() {
     if (_user == null) return const Stream.empty();
     return _fs
         .collection('users')
@@ -91,7 +99,7 @@ class ShopService {
         .map((snap) => snap.docs.map((d) => d.id).toSet());
   }
 
-  static Future<void> purchaseItem(ShopItem item) async {
+  Future<void> purchaseItem(ShopItem item) async {
     if (_user == null) return;
     final userRef = _fs.collection('users').doc(_user!.uid);
 
@@ -103,7 +111,7 @@ class ShopService {
       tx.update(userRef, {
         'coins': coins - item.cost,
         if (item.type == 'extra_life') 'extraLives': FieldValue.increment(1),
-        if (item.type == 'theme')         'theme':        item.id,
+        if (item.type == 'theme') 'theme': item.id,
       });
       if (item.type != 'extra_life') {
         final invRef = userRef.collection('inventory').doc(item.id);
@@ -112,13 +120,13 @@ class ShopService {
     });
   }
 
-  static Future<void> consumeExtraLife() async {
+  Future<void> consumeExtraLife() async {
     if (_user == null) return;
     final userRef = _fs.collection('users').doc(_user!.uid);
     await userRef.update({'extraLives': FieldValue.increment(-1)});
   }
 
-  static Future<void> selectPet(String? petId) async {
+  Future<void> selectPet(String? petId) async {
     if (_user == null) return;
     await _fs
       .collection('users')
@@ -126,7 +134,7 @@ class ShopService {
       .set({'selectedPet': petId}, SetOptions(merge: true));
   }
 
-  static Stream<String?> selectedPetStream() {
+  Stream<String?> selectedPetStream() {
     if (_user == null) return Stream.value(null);
     return _fs
       .collection('users')

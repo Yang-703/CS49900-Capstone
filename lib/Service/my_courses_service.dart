@@ -21,11 +21,18 @@ class CourseProgress {
 }
 
 class MyCoursesService {
-  static final _fs = FirebaseFirestore.instance;
-  static final _auth = FirebaseAuth.instance;
-  static User? get _user => _auth.currentUser;
+  final FirebaseFirestore _fs;
+  final FirebaseAuth _auth;
 
-  static Stream<List<CourseProgress>> myCoursesStream() {
+  MyCoursesService({
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+  })  : _fs = firestore ?? FirebaseFirestore.instance,
+        _auth = auth ?? FirebaseAuth.instance;
+
+  User? get _user => _auth.currentUser;
+
+  Stream<List<CourseProgress>> myCoursesStream() {
     if (_user == null) return const Stream.empty();
 
     return _fs
@@ -50,7 +57,7 @@ class MyCoursesService {
         final completedCount = entry.value;
 
         final qDoc = await _fs.collection('questions').doc(field).get();
-        final data = qDoc.data()?['courses'][course] as Map<String, dynamic>? ?? {};
+        final data = (qDoc.data()?['courses'][course] as Map<String, dynamic>?) ?? <String, dynamic>{};
         final lessonsCount = (data['lessons'] as Map?)?.length ?? 0;
         final quizCount = data.containsKey('quiz') ? 1 : 0;
         final totalCount = lessonsCount + quizCount;
@@ -60,11 +67,10 @@ class MyCoursesService {
           courseName: course,
           completedItems: completedCount,
           totalItems: totalCount,
-          imageUrl: data['image_url'] ?? '',
+          imageUrl: data['image_url'] as String? ?? '',
           courseData: data,
         ));
       }
-
       return list;
     });
   }

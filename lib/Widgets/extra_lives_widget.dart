@@ -7,8 +7,9 @@ class ExtraLivesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShopService shopService = ShopService();
     return StreamBuilder<int>(
-      stream: ShopService.extraLivesStream(),
+      stream: shopService.extraLivesStream(),
       builder: (context, snap) {
         final lives = snap.data ?? 0;
         if (lives <= 0) return const SizedBox.shrink();

@@ -3,14 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class StreakService {
-  static final _fs = FirebaseFirestore.instance;
-  static final _auth = FirebaseAuth.instance;
-  static User? get _user => _auth.currentUser;
+  final FirebaseFirestore _fs;
+  final FirebaseAuth _auth;
 
-  static DocumentReference<Map<String, dynamic>> get _userDoc =>
+  StreakService({FirebaseFirestore? firestore, FirebaseAuth? auth})
+      : _fs = firestore ?? FirebaseFirestore.instance,
+        _auth = auth ?? FirebaseAuth.instance;
+  User? get _user => _auth.currentUser;
+
+  DocumentReference<Map<String, dynamic>> get _userDoc =>
       _fs.collection('users').doc(_user!.uid);
 
-  static Future<void> recordStudy() async {
+  Future<void> recordStudy() async {
     if (_user == null) return;
     final today = _todayString();
 
@@ -32,8 +36,7 @@ class StreakService {
       if (lastDate != null &&
           DateTime.parse(today)
                   .difference(DateTime.parse(lastDate))
-                  .inDays ==
-              1) {
+                  .inDays == 1) {
         newCurrent = current + 1;
       } else {
         newCurrent = 1;
@@ -49,7 +52,7 @@ class StreakService {
     });
   }
 
-  static Future<void> syncStreak() async {
+  Future<void> syncStreak() async {
     if (_user == null) return;
     final snap = await _userDoc.get();
     if (!snap.exists) return;
@@ -64,12 +67,12 @@ class StreakService {
     }
   }
 
-  static Stream<int> currentStreakStream() {
+  Stream<int> currentStreakStream() {
     if (_user == null) return const Stream.empty();
     return _userDoc.snapshots().map((snap) => snap.data()?['currentStreak'] ?? 0);
   }
 
-  static Stream<int> highestStreakStream() {
+  Stream<int> highestStreakStream() {
     if (_user == null) return const Stream.empty();
     return _userDoc.snapshots().map((snap) => snap.data()?['highestStreak'] ?? 0);
   }
