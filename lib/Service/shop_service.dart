@@ -47,7 +47,7 @@ class ShopService {
       id: 'frame_gold',
       name: 'Gold Avatar Frame',
       description: 'Surround your avatar with gold flair.',
-      cost: 20,
+      cost: 15,
       imageUrl: 'https://img.freepik.com/free-vector/realistic-golden-frame_23-2149233571.jpg?ga=GA1.1.1590422758.1747678019&semt=ais_hybrid&w=740',
       category: 'Cosmetic',
       type: 'cosmetic',
